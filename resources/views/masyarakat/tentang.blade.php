@@ -11,7 +11,7 @@
         <div class="carousel-inner">
             @foreach ($banner as $image)
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}" data-bs-interval = "5000">
-                    <img src="{{ asset('images/banner/' .$image->gambar) }}" class="d-block w-100">
+                    <img src="{{ asset('storage/images/banner/' . $image->gambar) }}" class="d-block w-100">
                 </div>
             @endforeach
         </div>

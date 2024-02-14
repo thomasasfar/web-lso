@@ -3,3 +3,44 @@ body {
     font-weight: bold;
     font-size: 16px;
 }
+
+
+li {
+    list-style: none;
+    margin: 20px 0 20px 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.sidebar {
+    width: 264px;
+    height: 100vh;
+    position: fixed;
+    background-color: #126550;
+}
+
+#main-content {
+    margin-left: 330px;
+}
+
+.available{
+    background-color: #325446;
+}
+
+.btn-book{
+    background-color: #E17E37;
+}
+
+.selected-nav {
+    color: #126550;
+}
+
+.not-selected-nav {
+    color: black;
+}
+
+.nav-margin {
+    margin-right: 32px;
+}
