@@ -37,7 +37,7 @@ Route::get('/client/{id}/edit', [ClientController::class, 'edit'])->name('klien.
 Route::get('/liststandard', [StandardController::class, 'listStandard'])->name('standard.list');
 Route::get('/listruanglingkup', [RuangLingkupController::class, 'listRuangLingkup'])->name('ruanglingkup.list');
 
-Route::post('/tambahkliend}', [ClientController::class, 'store'])->name('klien.tambah');
+Route::post('/tambahklien', [ClientController::class, 'store'])->name('klien.tambah');
 Route::delete('/hapusclient/{id}', [ClientController::class, 'destroy'])->name('klien.hapus');
 Route::put('/updateklien/{id}', [ClientController::class, 'update'])->name('klien.update');
 
