@@ -15,16 +15,6 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('banners')->insert([
-            'gambar' => '1.jpg'
-        ]);
-        DB::table('banners')->insert([
-            'gambar' => '2.jpg'
-        ]);
-        DB::table('banners')->insert([
-            'gambar' => '3.jpg'
-        ]);
-
         DB::table('ruang_lingkups')->insert([
             'nama' => 'Hortikultura'
         ]);
@@ -50,7 +40,7 @@ class ClientSeeder extends Seeder
             'tanggal_habis_berlaku' => '31-01-2026',
             'status' => 'Sertifikat Berlaku',
             'id_ruang_lingkup' => 1,
-            'gambar' => '1.jpg'
+            'image' => '1.jpg'
         ]);
         DB::table('clients')->insert([
             'nama' => 'Pertanian Nobel',
@@ -63,7 +53,7 @@ class ClientSeeder extends Seeder
             'tanggal_habis_berlaku' => '31-01-2026',
             'status' => 'Sertifikat Berlaku',
             'id_ruang_lingkup' => 2,
-            'gambar' => '1.jpg'
+            'image' => '1.jpg'
         ]);
     }
 }

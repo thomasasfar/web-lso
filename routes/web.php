@@ -32,7 +32,7 @@ Route::put('/klien/{id}', [ClientController::class, 'update'])->name('klien.upda
 Route::delete('admin/klien/{id}/hapus', [ClientController::class, 'destroy'])->name('klien.delete');
 
 Route::get('/client', [ClientController::class, 'tableKlien'])->name('klien.table');
-Route::get('/client/{id}/edit', [ClientController::class, 'edit'])->name('klien.edit');
+Route::get('admin/client/{id}/edit', [ClientController::class, 'edit'])->name('klien.edit');
 
 Route::get('/liststandard', [StandardController::class, 'listStandard'])->name('standard.list');
 Route::get('/listruanglingkup', [RuangLingkupController::class, 'listRuangLingkup'])->name('ruanglingkup.list');

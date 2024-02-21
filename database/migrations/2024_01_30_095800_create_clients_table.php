@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('tanggal_habis_berlaku');
             $table->string('status');
             $table->unsignedBigInteger('id_ruang_lingkup');
-            $table->string('gambar');
+            $table->string('image');
             $table->timestamps();
         });
 

@@ -19,17 +19,17 @@
         <hr>
 
         <div class="container py-5">
+
             <div class="row">
                 @foreach ($client as $c)
                     <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
                         <div class="card my-3 h-80">
-                            @if ($c->gambar != '')
-                                <img src="{{ asset('storage/images/klien/' . $c->gambar) }}" alt="{{ $c->gambar }}"
+                            @if ($c->image != '')
+                                <img src="{{ asset('storage/images/klien/' . $c->image) }}" alt="{{ $c->image }}"
                                     class="card-img-top">
                             @else
-                                <!-- Tampilkan gambar placeholder jika tidak ada gambar yang diunggah -->
-                                <img src="{{ asset('images/klien/1.jpg') }}" alt="Gambar Placeholder"
-                                    style="max-width: 100px;">
+                                <!-- Tampilkan image placeholder jika tidak ada image yang diunggah -->
+                                <img src="{{ asset('storage/images/klien/1.jpg') }}" alt="Gambar Placeholder">
                             @endif
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-2">
@@ -49,4 +49,28 @@
         </div>
 
     </div>
+@endsection
+
+@section('script')
+<script>
+	$(document).ready(function(){
+
+	    $(document).on('click', '.pagination a', function(event){
+	        event.preventDefault();
+	        var page = $(this).attr('href').split('page=')[1];
+	        fetch_user_data(page);
+	    });
+
+	    function fetch_user_data(page)
+	    {
+	        $.ajax({
+                url:"/pagination/ajax?page="+page,
+                success:function(data)
+                {
+                    $('#user_table').html(data);
+                }
+	        });
+	    }
+	});
+</script>
 @endsection

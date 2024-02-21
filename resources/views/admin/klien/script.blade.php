@@ -1,12 +1,18 @@
 <script>
-    let table;
+    var SITEURL = '{{ URL::to('') }}';
 
     $(document).ready(function() {
-        table = $('#myTable').DataTable({
+        $('#myTable').DataTable({
+            responsive: true,
             processing: true,
             serverSide: true,
             ajax: "{{ route('klien.table') }}",
             columns: [{
+                    data: 'id',
+                    name: 'id',
+                    visible: false
+                },
+                {
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
@@ -40,11 +46,6 @@
                     visible: false
                 },
                 {
-                    data: 'gambar',
-                    name: 'gambar',
-                    visible: false
-                },
-                {
                     data: 'validasi',
                     name: 'validasi',
                     visible: false
@@ -69,22 +70,27 @@
                     name: 'aksi',
                     orderable: false,
                     searchable: false
-                }
+                },
+            ],
+            order: [
+                [0, 'desc']
             ],
             dom: 'Bfrtip',
             buttons: [{
                     extend: 'excel',
                     exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9,
-                            10
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8,
+                            9
                         ], // Kolom yang ingin diekspor (mulai dari indeks 0)
                     },
                     filename: 'data_excel', // Nama default untuk file Excel
                 },
                 {
-                    extend: 'pdf',
+                    extend: 'print',
                     exportOptions: {
-                        columns: [1, 2, 3], // Kolom yang ingin diekspor (mulai dari indeks 0)
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8,
+                            9
+                        ], // Kolom yang ingin diekspor (mulai dari indeks 0)
                     },
                     filename: 'data_pdf', // Nama default untuk file PDF
                 }
@@ -92,218 +98,7 @@
         });
     });
 
-    //Tambah
-    // $('body').on('click', '.tombol-tambah', function(e) {
-    //     e.preventDefault();
-    //     $('#modalKlien').modal('show');
 
-    //     $.ajax({
-    //         url: "{{ route('standard.list') }}",
-    //         type: 'GET',
-    //         success: function(data) {
-    //             $('#id_standar').empty();
-    //             console.log(data);
-
-    //             // Looping data JSON
-    //             $.each(data, function(key, value) {
-    //                 // Pastikan properti id dan nama_standar ada
-    //                 console.log(value.id, value.nama_standar);
-
-    //                 // Append option ke dropdown dengan format yang benar
-    //                 $('#id_standar').append('<option value="' + value
-    //                     .id + '">' + value.nama_standar +
-    //                     '</option>');
-    //             });
-    //         }
-    //     });
-
-    //     $.ajax({
-    //         url: "{{ route('ruanglingkup.list') }}",
-    //         type: 'GET',
-    //         success: function(data) {
-    //             $('#id_ruang_lingkup').empty();
-    //             console.log(data);
-
-    //             // Looping data JSON
-    //             $.each(data, function(key, value) {
-    //                 // Pastikan properti id dan nama_standar ada
-    //                 console.log(value.id, value.nama);
-
-    //                 // Append option ke dropdown dengan format yang benar
-    //                 $('#id_ruang_lingkup').append('<option value="' +
-    //                     value
-    //                     .id + '">' + value.nama +
-    //                     '</option>');
-    //             });
-    //         }
-    //     });
-
-    //     $('.tombol-simpan').click(function() {
-    //         simpan();
-    //     });
-    // });
-
-    //Tambah
-    $('body').on('click', '.tombol-tambah', function(e) {
-        e.preventDefault();
-        $('#modalKlien').modal('show');
-
-        $.ajax({
-            url: "{{ route('standard.list') }}",
-            type: 'GET',
-            success: function(data) {
-                $('#id_standar').empty();
-                console.log(data);
-
-                // Looping data JSON
-                $.each(data, function(key, value) {
-                    // Pastikan properti id dan nama_standar ada
-                    console.log(value.id, value.nama_standar);
-
-                    // Append option ke dropdown dengan format yang benar
-                    $('#id_standar').append('<option value="' + value
-                        .id + '">' + value.nama_standar +
-                        '</option>');
-                });
-            }
-        });
-
-        $.ajax({
-            url: "{{ route('ruanglingkup.list') }}",
-            type: 'GET',
-            success: function(data) {
-                $('#id_ruang_lingkup').empty();
-                console.log(data);
-
-                // Looping data JSON
-                $.each(data, function(key, value) {
-                    // Pastikan properti id dan nama_standar ada
-                    console.log(value.id, value.nama);
-
-                    // Append option ke dropdown dengan format yang benar
-                    $('#id_ruang_lingkup').append('<option value="' +
-                        value
-                        .id + '">' + value.nama +
-                        '</option>');
-                });
-            }
-        });
-
-        //ganti on form submit
-
-        // $('.tombol-simpan').click(function() {
-        //     simpan();
-        // });
-        $(document).ready(function() {
-            $('#form').submit(function(e) {
-                e.preventDefault();
-                var data = $(this).serialize()
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "{{ route('klien.tambah') }}",
-                    type: 'POST',
-                    data: data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response.errors) {
-                            console.log(response.errors);
-                            $('.alert-danger').removeClass('d-none');
-                            $('.alert-danger').html("<ul>");
-                            $.each(response.errors, function(key, value) {
-                                $('.alert-danger').find('ul').append(
-                                    "<li>" + value +
-                                    "</li>");
-                            });
-                            $('.alert-danger').append("</ul>");
-                        } else {
-                            $('.alert-success').removeClass('d-none');
-                            $('.alert-success').html(response.success);
-                        }
-                        $('#myTable').DataTable().ajax.reload();
-                    }
-
-                });
-            });
-        });
-    });
-
-    //Edit
-    $('body').on('click', '.tombol-edit', function(e) {
-        var id = $(this).data('id');
-        $.ajax({
-            url: 'clientAjax/' + id + '/edit',
-            type: 'GET',
-            success: function(response) {
-                $('#modalKlien').modal('show');
-
-                $('#nama').val(response.result.nama);
-                $('#alamat').val(response.result.alamat);
-                $('#kontak').val(response.result.kontak);
-
-                $.ajax({
-                    url: "{{ route('standard.list') }}",
-                    type: 'GET',
-                    success: function(data) {
-                        $('#id_standar').empty();
-                        console.log(data);
-
-                        // Looping data JSON
-                        $.each(data, function(key, value) {
-                            // Pastikan properti id dan nama_standar ada
-                            console.log(value.id, value.nama_standar);
-
-                            // Append option ke dropdown dengan format yang benar
-                            $('#id_standar').append('<option value="' +
-                                value
-                                .id + '">' + value.nama_standar +
-                                '</option>');
-                        });
-
-                        // Mengatur nilai default dari opsi standard
-                        $('#id_standar').val(response.result.standard.id);
-                    }
-                });
-
-                $('#validasi').val(response.result.validasi);
-                $('#nomor_sertifikat').val(response.result.nomor_sertifikat);
-                $('#tanggal_mulai_berlaku').val(response.result.tanggal_mulai_berlaku);
-                $('#tanggal_habis_berlaku').val(response.result.tanggal_habis_berlaku);
-                $('#status').val(response.result.status);
-
-                $.ajax({
-                    url: "{{ route('ruanglingkup.list') }}",
-                    type: 'GET',
-                    success: function(data) {
-                        $('#id_ruang_lingkup').empty();
-                        console.log(data);
-
-                        // Looping data JSON
-                        $.each(data, function(key, value) {
-                            // Pastikan properti id dan nama_standar ada
-                            console.log(value.id, value.nama);
-
-                            // Append option ke dropdown dengan format yang benar
-                            $('#id_ruang_lingkup').append(
-                                '<option value="' +
-                                value
-                                .id + '">' + value.nama +
-                                '</option>');
-                        });
-                        $('#id_ruang_lingkup').val(response.result
-                            .id_ruang_lingkup);
-                    }
-                });
-
-                console.log(response.result);
-
-                $('.tombol-simpan').click(function() {
-                    simpan(id);
-                });
-            }
-        });
-    });
 
     //Delete
     $('body').on('click', '.tombol-del', function(e) {
@@ -319,74 +114,158 @@
         }
     });
 
-    // fungsi simpan dan update
-    function simpan(id = '') {
-        // var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-        // var gambar = $('#gambar').val();
-        // if (!allowedExtensions.exec(gambar)) {
-        //     alert('File harus berupa gambar.');
-        //     return false;
-        // }
 
-        var formData = new FormData();
+    /*  When user click add user button */
+    $('#tombol-tambah-klien').click(function() {
+        $('#btn-save').val("create-product");
+        $('#client_id').val('');
+        $('#clientForm').trigger("reset");
+        $('#clientCrudModal').html("Tambah Klien");
+        $('#modalKlien').modal('show');
+        $('#modal-preview').attr('src', 'https://via.placeholder.com/150');
+        $.get("{{ route('standard.list') }}", function(data) {
+            $('#id_standar').empty();
+            console.log(data);
 
-        // Append image file to FormData object
-        var gambar = $('#gambar')[0].files[0];
-        formData.append('gambar', gambar);
+            // Looping data JSON
+            $.each(data, function(key, value) {
+                // Pastikan properti id dan nama_standar ada
+                console.log(value.id, value.nama_standar);
 
-        // Append other form fields to FormData object
-        formData.append('nama', $('#nama').val());
-        formData.append('alamat', $('#alamat').val());
-        formData.append('kontak', $('#kontak').val());
-        formData.append('id_standar', $('#id_standar').val());
-        formData.append('validasi', $('#validasi').val());
-        formData.append('nomor_sertifikat', $('#nomor_sertifikat').val());
-        formData.append('tanggal_mulai_berlaku', $('#tanggal_mulai_berlaku').val());
-        formData.append('tanggal_habis_berlaku', $('#tanggal_habis_berlaku').val());
-        formData.append('status', $('#status').val());
-        formData.append('id_ruang_lingkup', $('#id_ruang_lingkup').val());
+                // Append option ke dropdown dengan format yang benar
+                $('#id_standar').append('<option value="' + value
+                    .id + '">' + value.nama_standar +
+                    '</option>');
+            });
+        });
+        $.get("{{ route('ruanglingkup.list') }}", function(data) {
+            $('#id_ruang_lingkup').empty();
+            console.log(data);
 
-        if (id == '') {
-            var var_url = 'clientAjax';
-            var var_type = 'POST';
-        } else {
-            var var_url = "{{ route('klien.update', ['id' => ':id']) }}";
-            var_url = var_url.replace(':id', id);
-            var var_type = 'PUT';
-        }
-        $.ajax({
-            url: var_url,
-            type: var_type,
-            data: {
-                gambar: $('#gambar')[0].files,
-                nama: $('#nama').val(),
-                alamat: $('#alamat').val(),
-                kontak: $('#kontak').val(),
-                id_standar: $('#id_standar').val(),
-                validasi: $('#validasi').val(),
-                nomor_sertifikat: $('#nomor_sertifikat').val(),
-                tanggal_mulai_berlaku: $('#tanggal_mulai_berlaku').val(),
-                tanggal_habis_berlaku: $('#tanggal_habis_berlaku').val(),
-                status: $('#status').val(),
-                id_ruang_lingkup: $('#id_ruang_lingkup').val(),
-            },
-            success: function(response) {
-                if (response.errors) {
-                    console.log(response.errors);
-                    $('.alert-danger').removeClass('d-none');
-                    $('.alert-danger').html("<ul>");
-                    $.each(response.errors, function(key, value) {
-                        $('.alert-danger').find('ul').append("<li>" + value +
-                            "</li>");
-                    });
-                    $('.alert-danger').append("</ul>");
-                } else {
-                    $('.alert-success').removeClass('d-none');
-                    $('.alert-success').html(response.success);
-                }
-                $('#myTable').DataTable().ajax.reload();
+            // Looping data JSON
+            $.each(data, function(key, value) {
+                // Pastikan properti id dan nama_standar ada
+                console.log(value.id, value.nama);
+
+                // Append option ke dropdown dengan format yang benar
+                $('#id_ruang_lingkup').append('<option value="' +
+                    value
+                    .id + '">' + value.nama +
+                    '</option>');
+            });
+        })
+    });
+
+    /* Edit */
+    $('body').on('click', '.tombol-edit', function() {
+        var id = $(this).data('id');
+        $.get('client/' + id + '/edit', function(data) {
+            console.log(data)
+            // $('#title-error').hide();
+            // $('#product_code-error').hide();
+            // $('#description-error').hide();
+            $('#clientCrudModal').html("Edit Data Klien");
+            $('#tombol-simpan').val("Simpan");
+            $('#modalKlien').modal('show');
+            $('#client_id').val(data.id);
+
+            $('#modal-preview').attr('alt', 'No image available');
+            if (data.image) {
+                console.log(data.image)
+                $('#modal-preview').attr('src', SITEURL + '/storage/images/klien/' + data.image);
+                $('#hidden_image').attr('src', SITEURL + '/storage/images/klien/' + data.image);
             }
 
+            $('#nama').val(data.nama);
+            $('#alamat').val(data.alamat);
+            $('#kontak').val(data.kontak);
+
+            $.get("{{ route('standard.list') }}", function(response) {
+                $('#id_standar').empty();
+                console.log(response);
+
+                // Looping response JSON
+                $.each(response, function(key, value) {
+                    // Pastikan properti id dan nama_standar ada
+                    console.log(value.id, value.nama_standar);
+
+                    // Append option ke dropdown dengan format yang benar
+                    $('#id_standar').append('<option value="' + value
+                        .id + '">' + value.nama_standar +
+                        '</option>');
+                });
+                $('#id_standar').val(data.id_standar);
+            });
+
+            $('#validasi').val(data.validasi);
+            $('#nomor_sertifikat').val(data.nomor_sertifikat);
+            $('#tanggal_mulai_berlaku').val(data.tanggal_mulai_berlaku);
+            $('#tanggal_habis_berlaku').val(data.tanggal_habis_berlaku);
+            $('#status').val(data.status);
+
+            $.get("{{ route('ruanglingkup.list') }}", function(response) {
+                $('#id_ruang_lingkup').empty();
+                console.log(response);
+
+                // Looping response JSON
+                $.each(response, function(key, value) {
+                    // Pastikan properti id dan nama_standar ada
+                    console.log(value.id, value.nama);
+
+                    // Append option ke dropdown dengan format yang benar
+                    $('#id_ruang_lingkup').append('<option value="' +
+                        value
+                        .id + '">' + value.nama +
+                        '</option>');
+                });
+                $('#id_ruang_lingkup').val(data.id_ruang_lingkup);
+            })
+        })
+    });
+
+    $('body').on('submit', '#clientForm', function(e) {
+
+        e.preventDefault();
+
+        var actionType = $('#tombol-simpan').val();
+        $('#tombol-simpan').html('Sending..');
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: SITEURL + "/tambahklien",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: (data) => {
+
+                $('#clientForm').trigger("reset");
+                $('#modalKlien').modal('hide');
+                $('#tombol-simpan').html('Save Changes');
+                var oTable = $('#myTable').dataTable();
+                oTable.fnDraw(false);
+            },
+            error: function(data) {
+                console.log('Error:', data);
+                $('#tombol-simpan').html('Save Changes');
+            }
         });
-    };
+    });
+
+    function readURL(input, id) {
+        id = id || '#modal-preview';
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $(id).attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+            $('#modal-preview').removeClass('hidden');
+            $('#start').hide();
+        }
+    }
 </script>
