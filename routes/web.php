@@ -18,4 +18,5 @@ use App\Http\Controllers\BannerController;
 //     return view('masyarakat/tentang');
 // });
 
-Route::get('/', [BannerController::class, 'index']);
+Route::get('/tentang', [BannerController::class, 'index'])->name('tentang.index');
+Route::get('/kontak', [BannerController::class, 'lokasi'])->name('kontak.lokasi');

@@ -1,5 +1,54 @@
 body {
-    font-family: 'Raleway',Arial, Helvetica, sans-serif;
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 16px;
+}
+
+.nav-link {
+    text-transform: uppercase;
+    margin-right: 30px;
+}
+
+/* dekstop version */
+@media (min-width: 992px) {
+    .nav-link {
+        text-transform: uppercase;
+        margin-right: 30px;
+    }
+
+    .nav-link:hover::after {
+        content: "";
+        display: block;
+        border-bottom: 3px solid #198653;
+        width: 50%;
+        margin: auto;
+        padding-bottom: 5px;
+        margin-bottom: -8px;
+    }
+}
+
+/*workingspace*/
+.workingspace {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.workingspace img {
+    height: 110%;
+    width: 100%;
+}
+
+.workingspace h3 {
+    font-size: 18px;
+    color: black;
+    font-weight: 200;
+    margin: 30px 0;
+}
+
+.workingspace {
+    text-align: left;
+}
+
+.galeri {
+    background-color: #198653;
 }
