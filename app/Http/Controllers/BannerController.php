@@ -23,6 +23,12 @@ class BannerController extends Controller
         return view('masyarakat.tentang', compact('banner'));
     }
 
+    public function lokasi()
+    {
+        $banner = Banner::all();
+        return view('masyarakat.kontak', compact('banner'));
+    }
+
     public function indexAdmin()
     {
         return view('admin.about_us.banner');
