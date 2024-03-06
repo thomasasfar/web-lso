@@ -18,9 +18,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'nama',
+        'username',
         'password',
+        'id_role'
     ];
 
     /**
@@ -41,4 +42,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function Role(){
+        return $this->belongsTo(Role::class, "id_role", "role");
+    }
+
+    public function changePassword($newPassword)
+    {
+        $this->password = bcrypt($newPassword);
+        $this->save();
+    }
 }

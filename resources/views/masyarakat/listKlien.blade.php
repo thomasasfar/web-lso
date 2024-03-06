@@ -13,64 +13,63 @@
         <h1 style="text-align: center; font-weight:800; font-size: 40px; color:#333" class="my-3">DAFTAR KLIEN</h1>
 
         <p style="text-align: center">Lihat semua daftar klien disini</p>
+        <br>
         <div style="display: flex; justify-content: center; align-items: center;">
             <a href="" class="btn btn-dark" style="width: 128px">Disini</a>
         </div>
+        <br>
         <hr>
 
         <div class="container py-5">
 
-            <div class="row">
-                @foreach ($client as $c)
-                    <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-                        <div class="card my-3 h-80">
-                            @if ($c->image != '')
-                                <img src="{{ asset('storage/images/klien/' . $c->image) }}" alt="{{ $c->image }}"
-                                    class="card-img-top">
-                            @else
-                                <!-- Tampilkan image placeholder jika tidak ada image yang diunggah -->
-                                <img src="{{ asset('storage/images/klien/1.jpg') }}" alt="Gambar Placeholder">
-                            @endif
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <h5 class="mb-0">{{ $c->nama }}</h5>
-                                </div>
-
-                                <div class="d-flex justify-content-between mb-2">
-                                    <div class="ms-auto text-black">
-                                        <i>{{ $c->alamat }}</i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            <div id="klien_table">
+                @include('masyarakat.klien_pagination_data')
             </div>
+
         </div>
+
+        <table class="table table-striped" id="myTable">
+            <thead>
+                <tr style="display:none;">
+                    <th scope="col" style="display:none;">ID</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">Ruang Lingkup</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Standar</th>
+                    <th scope="col" style="display:none;">Kontak</th>
+                    <th scope="col" style="display:none;">Validasi</th>
+                    <th scope="col" style="display:none;">Nomor Sertifikat</th>
+                    <th scope="col" style="display:none;">Tanggal Berlaku</th>
+                    <th scope="col" style="display:none;">Tanggal Berakhir</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+        </table>
+
 
     </div>
 @endsection
 
 @section('script')
-<script>
-	$(document).ready(function(){
+    <script>
+        $(document).ready(function() {
 
-	    $(document).on('click', '.pagination a', function(event){
-	        event.preventDefault();
-	        var page = $(this).attr('href').split('page=')[1];
-	        fetch_user_data(page);
-	    });
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                fetch_user_data(page);
+            });
 
-	    function fetch_user_data(page)
-	    {
-	        $.ajax({
-                url:"/pagination/ajax?page="+page,
-                success:function(data)
-                {
-                    $('#user_table').html(data);
-                }
-	        });
-	    }
-	});
-</script>
+            function fetch_user_data(page) {
+                $.ajax({
+                    url: "/pagination/ajax?page=" + page,
+                    success: function(data) {
+                        $('#klien_table').html(data);
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

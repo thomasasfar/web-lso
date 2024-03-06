@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 use App\Models\RuangLingkup;
+use Redirect,Response,DB;
 
 class RuangLingkupController extends Controller
 {
@@ -14,7 +16,19 @@ class RuangLingkupController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.ruang_lingkup.list');
+    }
+
+    public function table()
+    {
+        $data = RuangLingkup::all();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) {
+                return view('admin.components.aksi')->with('data', $data);
+            })
+            ->make(true);
     }
 
     /**
@@ -41,7 +55,17 @@ class RuangLingkupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'nama' => 'required'
+        ]);
+
+        $data = ['nama' => $request->nama];
+
+        $ruangLingkupId = $request->ruang_lingkup_id;
+
+        $ruanglingkup = Standard::updateOrCreate(['id' => $ruangLingkupId], $data);
+
+        return Response::json($ruanglingkup);
     }
 
     /**
@@ -63,7 +87,9 @@ class RuangLingkupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $where = array('id' => $id);
+        $data = RuangLingkup::where($where)->first();
+        return Response::json($data);
     }
 
     /**
@@ -86,6 +112,7 @@ class RuangLingkupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ruanglingkup = Standard::where('id', $id)->delete();
+        return Response::json($ruanglingkup);
     }
 }

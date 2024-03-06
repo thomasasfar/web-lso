@@ -23,7 +23,7 @@
                     <input type="hidden" name="client_id" id="client_id">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="clientCrudModal">Tambah Barang</h1>
+                            <h1 class="modal-title fs-5" id="clientCrudModal">Tambah Klien</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

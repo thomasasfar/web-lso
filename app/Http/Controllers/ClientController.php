@@ -20,9 +20,28 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $articles;
+
+    // public function __construct(Article $articles)
+    // {
+    //     $this->articles = $articles;
+    // }
+
+    // public function index(Request $request)
+    // {
+    //     $articles = $this->articles->latest('created_at')->paginate(5);
+
+    //     if ($request->ajax()) {
+    //         return view('articles.load', ['articles' => $articles])->render();
+    //     }
+
+    //     return view('articles.index', compact('articles'));
+    // }
+
     public function index()
     {
-        $client = Client::paginate(16);
+        $client = Client::paginate(20);
         $ruanglingkup = RuangLingkup::all();
         $standard = Standard::all();
 
@@ -33,7 +52,7 @@ class ClientController extends Controller
     {
         if($request->ajax())
         {
-            $data = Client::paginate(5);
+            $data = Client::paginate(20);
             return view('masyarakat.klien_pagination_data', compact('data'))->render();
         }
     }
@@ -69,52 +88,6 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-//     public function store(Request $request)
-// {
-//     $validasi = Validator::make($request->all(),[
-//         'nama' => 'required',
-//         'alamat' => 'required',
-//         'kontak' => 'required',
-//         'validasi' => 'required|date',
-//         'id_standar' => 'required|exists:standards,id',
-//         'nomor_sertifikat' => 'required',
-//         'tanggal_mulai_berlaku' => 'required|date',
-//         'tanggal_habis_berlaku' => 'required|date|after:tanggal_mulai_berlaku',
-//         'status' => 'required',
-//         'id_ruang_lingkup' => 'required|exists:ruang_lingkups,id',
-//         'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-//     ]);
-
-//     if ($validasi->fails()){
-//         return response()->json(['errors' => $validasi->errors()]);
-//     } else {
-//         $data = [
-//             'nama' => $validasi['nama'],
-//             'alamat' => $validasi['alamat'],
-//             'kontak' => $validasi['kontak'],
-//             'validasi' => $validasi['validasi'],
-//             'id_standar' => $validasi['id_standar'],
-//             'nomor_sertifikat' => $validasi['nomor_sertifikat'],
-//             'tanggal_mulai_berlaku' => $validasi['tanggal_mulai_berlaku'],
-//             'tanggal_habis_berlaku' => $validasi['tanggal_habis_berlaku'],
-//             'status' => $validasi['status'],
-//             'id_ruang_lingkup' => $validasi['id_ruang_lingkup'],
-//             'image' => $newName,
-//         ];
-//         Client::create($data);
-//         return response()->json(['success' => "Berhasil menyimpan data"]);
-//     }
-
-//     if($request->file('image')){
-//         $extension = $request->file('image')->getClientOriginalExtension();
-//         $newName = $request->nama.'-'.now()->timestamp.'.'.$extension;
-//         $request->file('image')->storeAs('images/klien', $newName, 'public');
-//         $validasi['image'] = $newName;
-//     } else {
-//         $newName = '';
-//     }
-
-// }
 
     public function store(Request $request)
     {
@@ -204,51 +177,8 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
 {
-    $validasi = Validator::make($request->all(),[
-        'nama' => 'required',
-        'alamat' => 'required',
-        'kontak' => 'required',
-        'validasi' => 'required|date',
-        'id_standar' => 'required',
-        'nomor_sertifikat' => 'required',
-        'tanggal_mulai_berlaku' => 'required|date',
-        'tanggal_habis_berlaku' => 'required|date|after:tanggal_mulai_berlaku',
-        'status' => 'required',
-        'id_ruang_lingkup' => 'required',
-        'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-    ]);
 
-    if ($validasi->fails()){
-        return response()->json(['errors' => $validasi->errors()]);
-    } else {
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('images/klien'), $imageName);
-            return response()->json(['success' => 'Image uploaded successfully']);
-        } else {
-            return response()->json(['error' => 'Image not found']);
-        }
-
-        $data = [
-            'nama' => $validasi['nama'],
-            'alamat' => $validasi['alamat'],
-            'kontak' => $validasi['kontak'],
-            'validasi' => $validasi['validasi'],
-            'id_standar' => $validasi['id_standar'],
-            'nomor_sertifikat' => $validasi['nomor_sertifikat'],
-            'tanggal_mulai_berlaku' => $validasi['tanggal_mulai_berlaku'],
-            'tanggal_habis_berlaku' => $validasi['tanggal_habis_berlaku'],
-            'status' => $validasi['status'],
-            'id_ruang_lingkup' => $validasi['id_ruang_lingkup'],
-            'image' => $newName,
-        ];
-        Client::where('id', $id)->update($data);
-        return response()->json(['success' => "Berhasil menyimpan data"]);
-    }
 }
-
-
     /**
      * Remove the specified resource from storage.
      *

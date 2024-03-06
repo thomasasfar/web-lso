@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 use App\Models\Standard;
+use Redirect,Response,DB;
+
 
 class StandardController extends Controller
 {
@@ -14,7 +17,19 @@ class StandardController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.standar.list');
+    }
+
+    public function tableStandard()
+    {
+        $data = Standard::all();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) {
+                return view('admin.components.aksi')->with('data', $data);
+            })
+            ->make(true);
     }
 
     public function listStandard()
@@ -41,7 +56,17 @@ class StandardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'nama_standar' => 'required'
+        ]);
+
+        $data = ['nama_standar' => $request->nama_standar];
+
+        $standardId = $request->standard_id;
+
+        $standard = Standard::updateOrCreate(['id' => $standardId], $data);
+
+        return Response::json($standard);
     }
 
     /**
@@ -63,7 +88,9 @@ class StandardController extends Controller
      */
     public function edit($id)
     {
-        //
+        $where = array('id' => $id);
+        $data = Standard::where($where)->first();
+        return Response::json($data);
     }
 
     /**
@@ -86,6 +113,7 @@ class StandardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $standard = Standard::where('id', $id)->delete();
+        return Response::json($standard);
     }
 }

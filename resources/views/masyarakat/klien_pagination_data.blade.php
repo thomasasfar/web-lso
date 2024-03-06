@@ -20,4 +20,5 @@
             </div>
         </div>
     @endforeach
-
+</div>
+{!! $client->links() !!}

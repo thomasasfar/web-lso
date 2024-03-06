@@ -5,7 +5,7 @@ body {
 }
 
 
-li {
+.list-menu {
     list-style: none;
     margin: 20px 0 20px 0;
 }
