@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\RuangLingkup;
+use App\Models\Tentang;
+use DOMDocument;
+use Illuminate\Support\Str;
 use Redirect,Response,DB;
+use File;
+use PDF;
 
-class RuangLingkupController extends Controller
+class TentangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +22,12 @@ class RuangLingkupController extends Controller
      */
     public function index()
     {
-        return view('admin.ruang_lingkup.list');
+        return view('admin.profile.index');
     }
 
     public function table()
     {
-        $data = RuangLingkup::all();
+        $data = Tentang::all();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -41,12 +47,6 @@ class RuangLingkupController extends Controller
         //
     }
 
-    public function listRuangLingkup()
-    {
-        $data = RuangLingkup::all();
-        return response()->json($data);
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -55,17 +55,7 @@ class RuangLingkupController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'nama' => 'required'
-        ]);
-
-        $data = ['nama' => $request->nama];
-
-        $ruangLingkupId = $request->ruang_lingkup_id;
-
-        $ruanglingkup = RuangLingkup::updateOrCreate(['id' => $ruangLingkupId], $data);
-
-        return Response::json($ruanglingkup);
+        //
     }
 
     /**
@@ -87,9 +77,8 @@ class RuangLingkupController extends Controller
      */
     public function edit($id)
     {
-        $where = array('id' => $id);
-        $data = RuangLingkup::where($where)->first();
-        return Response::json($data);
+        $data = Tentang::findOrFail($id);
+        return view('admin.profile.edit',compact('data'));
     }
 
     /**
@@ -99,9 +88,36 @@ class RuangLingkupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        request()->validate([
+            'konten' => 'required',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
+       ]);
+
+        $profilId = $request->profil_id;
+
+        $tentang = Tentang::findOrFail($profilId);
+
+        $data = [
+            'konten' => $request->konten,
+        ];
+
+        if ($files = $request->file('image')) {
+
+            //delete old file
+            \File::delete('/storage/images/tentang'.$request->hidden_image);
+
+            //insert new file
+            $destinationPath = 'storage/images/tentang'; // upload path
+            $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $profileImage);
+            $data['image'] = "$profileImage";
+        }
+
+        // $tentang->update($data);
+        $tentang->update($data);
+        return Response::json($tentang);
     }
 
     /**
@@ -112,12 +128,12 @@ class RuangLingkupController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $ruanglingkup = RuangLingkup::where('id', $id)->delete();
-            return response()->json(['message' => 'Data berhasil dihapus', 'status' => true], 200);
-        } catch (\Exception $e) {
-            // Jika terjadi exception, tangkap dan kirim pesan error
-            return response()->json(['message' => 'Data yang anda minta tidak bisa dihapus karena digunakan pada tabel klien', 'status' => false], 403);
-        }
+        //
+    }
+
+    public function profil()
+    {
+        $profil = Tentang::all();
+        return Response::json($profil);
     }
 }

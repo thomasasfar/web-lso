@@ -62,7 +62,7 @@
         })
     });
 
-    $('body').on('submit', '#standardForm', function(e) {
+    $('body').on('submit', '#ruanglingkupForm', function(e) {
 
         e.preventDefault();
 
@@ -83,8 +83,7 @@
                 $('#ruangLingkupForm').trigger("reset");
                 $('#modalRuangLingkup').modal('hide');
                 $('#tombol-simpan').html('Save Changes');
-                var oTable = $('#ruangLingkupTable').dataTable();
-                oTable.fnDraw(false);
+                $('#ruangLingkupTable').DataTable().ajax.reload();
             },
             error: function(data) {
                 console.log('Error:', data);
@@ -96,16 +95,28 @@
     //Delete
     $('body').on('click', '.tombol-del', function(e) {
         if (confirm(
-                'Menghapus ruang lingkup akan menghapus klien yang terdaftar pada ruang lingkup ini. Anda yakin ingin melanjutkan? '
-                ) == true) {
+                'Apakah anda yakin ingin menghapus data ini?'
+            ) == true) {
             var id = $(this).data('id');
             var url = "{{ route('ruanglingkup.hapus', ['id' => ':id']) }}";
             url = url.replace(':id', id);
             $.ajax({
                 url: url,
                 type: 'DELETE',
+                success: function(response) {
+                    if (response.status) {
+                        alert(response.message); // Pesan sukses
+                        $('#ruangLingkupTable').DataTable().ajax.reload();
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 403) {
+                        alert(xhr.responseJSON.message); // Pesan error dari server
+                    } else {
+                        alert('Terjadi kesalahan, silakan coba lagi.');
+                    }
+                }
             });
-            $('#ruangLingkupTable').DataTable().ajax.reload();
         }
     });
 </script>

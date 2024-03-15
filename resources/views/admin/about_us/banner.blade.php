@@ -42,7 +42,7 @@
                 <tr>
                     <th scope="col" style="display: none;">ID</th>
                     <th scope="col">Nomor</th>
-                    {{-- <th scope="col">Gambar</th> --}}
+                    <th scope="col">Gambar</th>
                 </tr>
             </thead>
         </table>
@@ -77,6 +77,8 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Form input gambar -->
+                    <input type="file" name="image" class="image">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -105,12 +107,12 @@
                         orderable: false,
                         searchable: false
                     },
-                    // {
-                    //     data: 'gambar',
-                    //     name: 'gambar',
-                    //     orderable: true,
-                    //     searchable: true
-                    // },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        orderable: true,
+                        searchable: true
+                    },
                     {
                         data: 'aksi',
                         name: 'aksi',
@@ -124,7 +126,6 @@
             });
         });
 
-
         //upload
         var $modal = $('#modal');
         var image = document.getElementById('image');
@@ -135,6 +136,7 @@
             var done = function(url) {
                 image.src = url;
                 $modal.modal('show');
+                cropper.replace(url); // Memperbarui gambar di dalam preview
             };
             var reader;
             var file;
@@ -164,8 +166,11 @@
         });
         $("#crop").click(function() {
             canvas = cropper.getCroppedCanvas({
-                width: 160,
-                height: 100,
+                width: 2000,
+                height: 900,
+                imageSmoothingEnabled: true, // Menjaga kualitas gambar saat dicrop
+                imageSmoothingQuality: 'high', // Menjaga kualitas gambar saat dicrop
+                quality: 1 // Nilai antara 0 dan 1, 1 adalah kualitas tertinggi
             });
             canvas.toBlob(function(blob) {
                 url = URL.createObjectURL(blob);

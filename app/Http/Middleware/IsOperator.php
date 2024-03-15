@@ -17,7 +17,7 @@ class IsOperator
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() || Auth::user()->id_role != 2)
+        if(!Auth::check() || Auth::user()->id_role != 'operator')
             return abort(403, 'Unauthorized action');
 
         return $next($request);

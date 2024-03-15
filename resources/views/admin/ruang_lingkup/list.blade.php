@@ -19,7 +19,7 @@
         <!-- Modal Tambah-->
         <div class="modal fade" id="modalRuangLingkup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="standardForm" name="ruangLingkupForm">
+                <form id="ruanglingkupForm" name="ruangLingkupForm">
                     <input type="hidden" name="ruang_lingkup_id" id="ruang_lingkup_id">
                     <div class="modal-content">
                         <div class="modal-header">

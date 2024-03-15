@@ -10,6 +10,7 @@ use App\Models\Banner;
 use Redirect,Response,DB;
 use File;
 
+
 class BannerController extends Controller
 {
     /**
@@ -20,7 +21,7 @@ class BannerController extends Controller
     public function index()
     {
         $banner = Banner::all();
-        return view('masyarakat.tentang', compact('banner'));
+        return view('masyarakat.tentang.tentang', compact('banner'));
     }
 
     public function lokasi()
@@ -37,12 +38,13 @@ class BannerController extends Controller
     public function tableBanner()
     {
         $data = Banner::all();
+        $table = "banner";
 
         return DataTables::of($data)
             ->addIndexColumn()
-            // ->addColumn('gambar', function($data){
-            //     return view('admin.about_us.image')->with('data', $data);
-            // })
+            ->addColumn('image', function($data) use ($table){
+                return view('admin.components.image')->with(['data' => $data, 'table' => $table]);
+            })
             ->addColumn('aksi', function ($data) {
                 return view('admin.components.aksi')->with('data', $data);
             })
@@ -60,7 +62,7 @@ class BannerController extends Controller
         $imageFullPath = $folderPath.$imageName;
         file_put_contents($imageFullPath, $image_base64);
          $saveFile = new Banner;
-         $saveFile->gambar = $imageName;
+         $saveFile->image = $imageName;
          $saveFile->save();
 
         return response()->json(['success'=>'Crop Image Uploaded Successfully']);

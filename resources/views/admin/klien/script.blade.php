@@ -2,8 +2,7 @@
     var SITEURL = '{{ URL::to('') }}';
 
     $(document).ready(function() {
-        $('#myTable').DataTable({
-            responsive: true,
+        new DataTable('#myTable', {
             processing: true,
             serverSide: true,
             ajax: "{{ route('klien.table') }}",
@@ -72,29 +71,34 @@
                     searchable: false
                 },
             ],
+            layout: {
+                topStart: {
+                    buttons: [{
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: [1, 2, 3, 4, 5, 6, 7, 8,
+                                    9
+                                ], // Kolom yang ingin diekspor (mulai dari indeks 0)
+                            },
+                            filename: 'data_excel', // Nama default untuk file Excel
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [1, 2, 3, 4, 5, 6, 7, 8,
+                                    9
+                                ], // Kolom yang ingin diekspor (mulai dari indeks 0)
+                            },
+                            filename: 'data_pdf', // Nama default untuk file PDF
+                        }
+                    ]
+                }
+            },
             order: [
                 [0, 'desc']
             ],
-            dom: 'Bfrtip',
-            buttons: [{
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 6, 7, 8,
-                            9
-                        ], // Kolom yang ingin diekspor (mulai dari indeks 0)
-                    },
-                    filename: 'data_excel', // Nama default untuk file Excel
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 6, 7, 8,
-                            9
-                        ], // Kolom yang ingin diekspor (mulai dari indeks 0)
-                    },
-                    filename: 'data_pdf', // Nama default untuk file PDF
-                }
-            ]
+            // dom: 'Bfrtip',
+
         });
     });
 
@@ -244,8 +248,9 @@
                 $('#clientForm').trigger("reset");
                 $('#modalKlien').modal('hide');
                 $('#tombol-simpan').html('Save Changes');
-                var oTable = $('#myTable').dataTable();
-                oTable.fnDraw(false);
+                // var oTable = $('#myTable').dataTable();
+                // oTable.fnDraw(false);
+                $('#myTable').DataTable().ajax.reload();
             },
             error: function(data) {
                 console.log('Error:', data);
@@ -264,7 +269,7 @@
             };
 
             reader.readAsDataURL(input.files[0]);
-            $('#modal-preview').removeClass('hidden');
+            $('#modal-preview').removeClass('visually-hidden');
             $('#start').hide();
         }
     }

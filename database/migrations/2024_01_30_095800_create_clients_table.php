@@ -30,8 +30,8 @@ return new class extends Migration
         });
 
         Schema::table('clients', function (Blueprint $table){
-            $table->foreign('id_standar')->references('id')->on('standards')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_ruang_lingkup')->references('id')->on('ruang_lingkups')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_standar')->references('id')->on('standards')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('id_ruang_lingkup')->references('id')->on('ruang_lingkups')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

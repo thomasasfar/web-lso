@@ -77,8 +77,6 @@ class ClientController extends Controller
             ->addColumn('aksi', function ($data) {
                 return view('admin.components.aksi')->with('data', $data);
             })
-            // ->addColumn('image', 'image')
-            // ->rawColumns(['aksi','image'])
             ->make(true);
     }
 
@@ -160,10 +158,7 @@ class ClientController extends Controller
     {
         $where = array('id' => $id);
         $data = Client::with('RuangLingkup', 'Standard')->where($where)->first();
-        // return response()->json(['result' => $data]);
 
-        // $where = array('id' => $id);
-        // $client  = Client::where($where)->first();
 
         return Response::json($data);
     }

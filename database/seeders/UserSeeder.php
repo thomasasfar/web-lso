@@ -16,24 +16,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-            'role' => 'superadmin'
-        ]);
-        DB::table('roles')->insert([
-            'role' => 'operator'
-        ]);
-
         DB::table('users')->insert([
             'username' => 'superadmin',
             'password' => bcrypt('123456'),
             'nama' => 'superadmin',
-            'id_role' => 1
+            'role' => 'admin'
         ]);
         DB::table('users')->insert([
             'username' => 'operator',
             'password' => bcrypt('123456'),
             'nama' => 'operator',
-            'id_role' => 2
+            'role' => 'operator'
         ]);
     }
 }

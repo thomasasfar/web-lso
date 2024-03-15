@@ -45,10 +45,10 @@ a {
     margin-right: 32px;
 }
 
-.nav-link {
+/* .nav-link {
     text-transform: uppercase;
     margin-right: 30px;
-}
+} */
 
 /* dekstop version */
 @media (min-width: 992px) {
@@ -71,11 +71,11 @@ a {
 /*workingspace*/
 .workingspace {
     margin-top: 30px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
 .workingspace img {
-    height: 110%;
     width: 100%;
 }
 

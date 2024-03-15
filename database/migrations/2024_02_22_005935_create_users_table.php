@@ -18,12 +18,8 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('nama');
-            $table->bigInteger('id_role');
+            $table->string('role');
             $table->timestamps();
-        });
-
-        Schema::table('users', function (Blueprint $table){
-            $table->foreign('id_role')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

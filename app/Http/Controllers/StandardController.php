@@ -111,9 +111,21 @@ class StandardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function destroy($id)
+    // {
+    //         $standard = Standard::where('id', $id)->delete();
+    //         return Response::json($standard);
+    // }
+
     public function destroy($id)
     {
-        $standard = Standard::where('id', $id)->delete();
-        return Response::json($standard);
+        try {
+            $standard = Standard::where('id', $id)->delete();
+            return response()->json(['message' => 'Data berhasil dihapus', 'status' => true], 200);
+        } catch (\Exception $e) {
+            // Jika terjadi exception, tangkap dan kirim pesan error
+            return response()->json(['message' => 'Data yang anda minta tidak bisa dihapus karena digunakan pada tabel klien', 'status' => false], 403);
+        }
     }
+
 }

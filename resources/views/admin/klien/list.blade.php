@@ -41,7 +41,7 @@
                             </div>
 
                             <img id="modal-preview" src="https://via.placeholder.com/150" alt="Preview"
-                                class="form-group hidden" width="100" height="100">
+                                class="form-group visually-hidden" height="100">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama">
@@ -103,27 +103,25 @@
         <button id="btnExcel" class="btn btn-primary">excel</button>
     </div> --}}
 
-        <div id="myTable_wrapper" class="dataTables_wrapper">
-            <table class="table table-striped" id="myTable">
-                <thead>
-                    <tr>
-                        <th scope="col" style="display:none;">ID</th>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Alamat</th>
-                        <th scope="col">Ruang Lingkup</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Standar</th>
-                        <th scope="col" style="display:none;">Kontak</th>
-                        <th scope="col" style="display:none;">Validasi</th>
-                        <th scope="col" style="display:none;">Nomor Sertifikat</th>
-                        <th scope="col" style="display:none;">Tanggal Berlaku</th>
-                        <th scope="col" style="display:none;">Tanggal Berakhir</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        <table class="display nowrap" style="width:100%" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col" style="display:none;">ID</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">Ruang Lingkup</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Standar</th>
+                    <th scope="col" style="display:none;">Kontak</th>
+                    <th scope="col" style="display:none;">Validasi</th>
+                    <th scope="col" style="display:none;">Nomor Sertifikat</th>
+                    <th scope="col" style="display:none;">Tanggal Berlaku</th>
+                    <th scope="col" style="display:none;">Tanggal Berakhir</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 @endsection
 

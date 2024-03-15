@@ -83,8 +83,9 @@
                 $('#standardForm').trigger("reset");
                 $('#modalStandar').modal('hide');
                 $('#tombol-simpan').html('Save Changes');
-                var oTable = $('#standardTable').dataTable();
-                oTable.fnDraw(false);
+                // var oTable = $('#standardTable').dataTable();
+                // oTable.fnDraw(false);
+                $('#standardTable').DataTable().ajax.reload();
             },
             error: function(data) {
                 console.log('Error:', data);
@@ -95,13 +96,30 @@
 
     //Delete
     $('body').on('click', '.tombol-del', function(e) {
-        if (confirm('Menghapus standar akan menghapus klien yang terdaftar pada standar ini. Anda yakin ingin melanjutkan?') == true) {
+        var nama = $(this).data('nama_standar')
+        if (confirm(
+                'Apakah anda yakin ingin menghapus standar ini?'
+            ) == true) {
             var id = $(this).data('id');
+
             var url = "{{ route('standard.hapus', ['id' => ':id']) }}";
             url = url.replace(':id', id);
             $.ajax({
                 url: url,
                 type: 'DELETE',
+                success: function(response) {
+                    if (response.status) {
+                        alert(response.message); // Pesan sukses
+                        $('#standardTable').DataTable().ajax.reload();
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 403) {
+                        alert(xhr.responseJSON.message); // Pesan error dari server
+                    } else {
+                        alert('Terjadi kesalahan, silakan coba lagi.');
+                    }
+                }
             });
             $('#standardTable').DataTable().ajax.reload();
         }

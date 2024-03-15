@@ -48,7 +48,7 @@ class LayananController extends Controller
             'file' => 'nullable|file|mimes:pdf',
        ]);
 
-    //    $clientId = $request->client_id;
+       $layananId = $request->layanan_id;
 
         $data = [
             'nama' => $request->nama,
@@ -77,9 +77,9 @@ class LayananController extends Controller
 
             //insert new file
             $destinationPath = 'storage/images/layanan'; // upload path
-            $clientImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
-            $files->move($destinationPath, $clientImage);
-            $data['image'] = "$clientImage";
+            $layananImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $layananImage);
+            $data['image'] = "$layananImage";
         }
 
         if ($pdfFile = $request->file('file')) {
@@ -95,10 +95,7 @@ class LayananController extends Controller
             $data['file'] = $pdfName;
         }
 
-        // $layanan = Layanan::updateOrCreate(['id' => $clientId], $data);
-        $layanan = Layanan::updateOrCreate($data);
-
-
+        $layanan = Layanan::updateOrCreate(['id' => $layananId], $data);
         return Response::json($layanan);
     }
 
