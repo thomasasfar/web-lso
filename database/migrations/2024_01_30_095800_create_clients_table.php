@@ -18,20 +18,15 @@ return new class extends Migration
             $table->string('nama');
             $table->string('alamat');
             $table->string('kontak');
-            $table->unsignedBigInteger('id_standar');
+            $table->string('telepon');
+            $table->string('email');
             $table->date('validasi');
             $table->string('nomor_sertifikat');
             $table->date('tanggal_mulai_berlaku');
             $table->date('tanggal_habis_berlaku');
-            $table->string('status');
-            $table->unsignedBigInteger('id_ruang_lingkup');
+            $table->unsignedBigInteger('id_status');
             $table->string('image')->nullable();
             $table->timestamps();
-        });
-
-        Schema::table('clients', function (Blueprint $table){
-            $table->foreign('id_standar')->references('id')->on('standards')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('id_ruang_lingkup')->references('id')->on('ruang_lingkups')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

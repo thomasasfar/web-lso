@@ -93,3 +93,11 @@ a {
 .galeri {
     background-color: #198653;
 }
+
+.select2 {
+    width:100%!important;
+}
+
+.myTable {
+    width:100%!important;
+}

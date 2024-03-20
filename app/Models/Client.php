@@ -15,11 +15,15 @@ class Client extends Model
         'id'
     ];
 
-    public function Standard(){
-        return $this->belongsTo(Standard::class, "id_standar", "id");
+    public function DetailRuangLingkup(){
+        return $this->hasMany(DetailRuangLingkup::class, "id_client", "id");
     }
 
-    public function RuangLingkup(){
-        return $this->belongsTo(RuangLingkup::class, "id_ruang_lingkup", "id");
+    public function DetailStandard(){
+        return $this->hasMany(DetailStandard::class, "id_client", "id");
+    }
+
+    public function Status(){
+        return $this->belongsTo(Status::class, "id_status", "id");
     }
 }

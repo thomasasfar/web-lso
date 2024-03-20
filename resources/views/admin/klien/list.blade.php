@@ -13,7 +13,7 @@
 
         <!-- Button trigger modal Tambah -->
         <div class="my-2">
-            <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah-klien">Add New</a>
+            <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah-klien">Tambah Klien</a>
         </div>
 
         <!-- Modal Tambah-->
@@ -54,14 +54,25 @@
                                 <label for="kontak" class="form-label">Kontak</label>
                                 <input type="text" class="form-control" id="kontak" name="kontak">
                             </div>
-                            <div class="form-group">
-                                <label for="id_standar">Standar</label>
-                                <select class="form-select" id="id_standar" name="id_standar">
-
-                                </select>
+                            <div class="mb-3">
+                                <label for="telepon" class="form-label">No Telepon</label>
+                                <input type="text" class="form-control" id="telepon" name="telepon">
                             </div>
                             <div class="mb-3">
-                                <label for="validasi" class="form-label">Validasi</label>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="mb-3">
+                                <div class='form-group'>
+                                    <label for= "selectstandard">Standard</label>
+                                    <select class="form-select" id="selectstandard" name="id_standard[]"
+                                        multiple="multiple">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="validasi" class="form-label">Tanggal Penerbitan Sertifikat</label>
                                 <input type="date" class="form-control" id="validasi" name="validasi">
                             </div>
                             <div class="mb-3">
@@ -103,21 +114,23 @@
         <button id="btnExcel" class="btn btn-primary">excel</button>
     </div> --}}
 
-        <table class="display nowrap" style="width:100%" id="myTable">
+        <table class="display" id="myTable">
             <thead>
                 <tr>
                     <th scope="col" style="display:none;">ID</th>
                     <th scope="col">No</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">Alamat</th>
+                    <th scope="col">Narahubung</th>
+                    <th scope="col" style="display:none;">Telepon</th>
+                    <th scope="col" style="display:none;">Email</th>
+                    <th scope="col" style="display:none;">Alamat</th>
                     <th scope="col">Ruang Lingkup</th>
-                    <th scope="col">Status</th>
                     <th scope="col">Standar</th>
-                    <th scope="col" style="display:none;">Kontak</th>
                     <th scope="col" style="display:none;">Validasi</th>
                     <th scope="col" style="display:none;">Nomor Sertifikat</th>
                     <th scope="col" style="display:none;">Tanggal Berlaku</th>
                     <th scope="col" style="display:none;">Tanggal Berakhir</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>

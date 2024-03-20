@@ -60,5 +60,4 @@
     $('#tombol-tambah').click(function() {
         window.location.href = 'layanan/create';
     });
-
 </script>

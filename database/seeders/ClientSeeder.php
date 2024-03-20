@@ -32,27 +32,27 @@ class ClientSeeder extends Seeder
         DB::table('clients')->insert([
             'nama' => 'Rumah Tani Tom',
             'alamat' => 'Jalan yuk',
-            'kontak' => '@nobeltom_',
-            'id_standar' => 1,
+            'kontak' => 'Thomas Nobel',
+            'telepon' => '081277631122',
+            'email' => 'thomas@nobel.tom',
             'validasi' => '31-01-2024',
             'nomor_sertifikat' => '475-LSPr-092-IDN-12-22',
             'tanggal_mulai_berlaku' => '31-01-2024',
             'tanggal_habis_berlaku' => '31-01-2026',
-            'status' => 'Sertifikat Berlaku',
-            'id_ruang_lingkup' => 1,
+            'id_status' => '2',
             'image' => '1.jpg'
         ]);
         DB::table('clients')->insert([
             'nama' => 'Pertanian Nobel',
             'alamat' => 'Jalan bareng aku aja',
-            'kontak' => '@nobeltom_',
-            'id_standar' => 1,
+            'kontak' => 'Thomas Asfar',
+            'telepon' => '081277631122',
+            'email' => 'thomas@nobel.tom',
             'validasi' => '31-01-2024',
             'nomor_sertifikat' => '476-LSPr-092-IDN-12-22',
             'tanggal_mulai_berlaku' => '31-01-2024',
             'tanggal_habis_berlaku' => '31-01-2026',
-            'status' => 'Sertifikat Berlaku',
-            'id_ruang_lingkup' => 2,
+            'id_status' => 1,
             'image' => '1.jpg'
         ]);
     }

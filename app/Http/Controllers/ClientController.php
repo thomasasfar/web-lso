@@ -9,6 +9,9 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Client;
 use App\Models\RuangLingkup;
 use App\Models\Standard;
+use App\Models\DetailStandard;
+use App\Models\DetailRuangLingkup;
+use App\Models\Status;
 use Redirect,Response,DB;
 use File;
 use PDF;
@@ -64,15 +67,32 @@ class ClientController extends Controller
 
     public function tableKlien()
     {
-        $data = Client::with('RuangLingkup', 'Standard');
+        $data = Client::all();
 
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('ruang_lingkup', function ($client) {
-                return $client->RuangLingkup ? $client->RuangLingkup->nama : '-';
+            ->addColumn('ruanglingkup', function ($client) {
+                if ($client->DetailRuangLingkup->isNotEmpty()) {
+                    $ruanglingkups = $client->DetailRuangLingkup->map(function ($detail) {
+                        return $detail->RuangLingkup->nama;
+                    })->implode(', ');
+                    return $ruanglingkups;
+                } else {
+                    return '-';
+                }
             })
             ->addColumn('standar', function ($client) {
-                return $client->Standard ? $client->standard->nama_standar : '-';
+                if ($client->DetailStandard->isNotEmpty()) {
+                    $standards = $client->DetailStandard->map(function ($detail) {
+                        return $detail->Standard->nama_standar;
+                    })->implode(', ');
+                    return $standards;
+                } else {
+                    return '-';
+                }
+            })
+            ->addColumn('status', function ($client) {
+                return $client->Status ? $client->status->nama : '-';
             })
             ->addColumn('aksi', function ($data) {
                 return view('admin.components.aksi')->with('data', $data);
@@ -87,19 +107,24 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function create()
+    {
+        return view('admin.klien.create');
+    }
+
     public function store(Request $request)
     {
         request()->validate([
             'nama' => 'required',
             'alamat' => 'required',
             'kontak' => 'required',
-            'validasi' => 'required|date',
-            'id_standar' => 'required|exists:standards,id',
+            'telepon' => 'required',
+            'email' => 'nullable|email',
+            'validasi' => 'required|date|before_or_equal:tanggal_mulai_berlaku',
             'nomor_sertifikat' => 'required',
             'tanggal_mulai_berlaku' => 'required|date',
             'tanggal_habis_berlaku' => 'required|date|after:tanggal_mulai_berlaku',
-            'status' => 'required',
-            'id_ruang_lingkup' => 'required|exists:ruang_lingkups,id',
+            'id_status' => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
        ]);
 
@@ -109,13 +134,14 @@ class ClientController extends Controller
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'kontak' => $request->kontak,
+            'telepon' => $request->telepon,
+            'email' => $request->email,
             'validasi' => $request->validasi,
             'id_standar' => $request->id_standar,
             'nomor_sertifikat' => $request->nomor_sertifikat,
             'tanggal_mulai_berlaku' => $request->tanggal_mulai_berlaku,
             'tanggal_habis_berlaku' => $request->tanggal_habis_berlaku,
-            'status' => $request->status,
-            'id_ruang_lingkup' => $request->id_ruang_lingkup,
+            'id_status' => $request->id_status,
         ];
 
         if ($files = $request->file('image')) {
@@ -131,6 +157,26 @@ class ClientController extends Controller
         }
 
         $client = Client::updateOrCreate(['id' => $clientId], $data);
+
+        $dataStandard = $request->id_standard;
+        $insertStandard = [];
+        for ($i = 0; $i < count($dataStandard); $i++) {
+            array_push($insertStandard, ['id_client' => $client->id, 'id_standard' => $dataStandard[$i]]);
+        }
+
+        $dataRuangLingkup = $request->id_ruang_lingkup;
+        $insertRuangLingkup = [];
+        for ($i = 0; $i < count($dataRuangLingkup); $i++) {
+            array_push($insertRuangLingkup, ['id_client' => $client->id, 'id_ruang_lingkup' => $dataRuangLingkup[$i]]);
+        }
+
+        // Menghapus detail standar yang sudah ada untuk klien yang diupdate
+        DetailStandard::where('id_client', $client->id)->delete();
+        DetailRuangLingkup::where('id_client', $client->id)->delete();
+
+        DetailStandard::insertOrIgnore($insertStandard);
+        DetailRuangLingkup::insertOrIgnore($insertRuangLingkup);
+
 
         return Response::json($client);
 
@@ -156,9 +202,57 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $where = array('id' => $id);
-        $data = Client::with('RuangLingkup', 'Standard')->where($where)->first();
+        // $where = array('id' => $id);
+        $data = Client::with('DetailRuangLingkup', 'DetailStandard')->findOrFail($id);
 
+        return view('admin.klien.edit', compact('data'));
+
+        // return Response::json($data);
+    }
+
+    public function selectstandard()
+    {
+        // $mk = DetailStandard::select('id_standard');
+        $data = Standard::where('nama_standar', 'LIKE', '%' . request('q') . '%')->paginate(10);
+
+        return Response::json($data);
+    }
+
+    public function getstandard($id)
+    {
+        $detailStandards = DetailStandard::with('standard')->where('id_client', $id)->get();
+        $data = '';
+
+        foreach ($detailStandards as $detailStandard) {
+            $data .= "<option value='{$detailStandard->standard->id}' selected>{$detailStandard->standard->nama_standar}</option>";
+        }
+
+        return Response::json($data);
+    }
+
+    public function selectRuangLingkup()
+    {
+        // $mk = DetailStandard::select('id_standard');
+        $data = RuangLingkup::where('nama', 'LIKE', '%' . request('q') . '%')->paginate(10);
+
+        return Response::json($data);
+    }
+
+    public function getRuangLingkup($id)
+    {
+        $detailRuangLingkup = DetailRuangLingkup::with('ruanglingkup')->where('id_client', $id)->get();
+        $data = '';
+
+        foreach ($detailRuangLingkup as $row) {
+            $data .= "<option value='{$row->ruanglingkup->id}' selected>{$row->ruanglingkup->nama}</option>";
+        }
+
+        return Response::json($data);
+    }
+
+    public function selectStatus()
+    {
+        $data = Status::where('nama', 'LIKE', '%' . request('q') . '%')->paginate(10);
 
         return Response::json($data);
     }
