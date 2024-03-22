@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\SessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,7 @@ use App\Http\Controllers\BannerController;
 
 Route::get('/tentang', [BannerController::class, 'index'])->name('tentang.index');
 Route::get('/kontak', [BannerController::class, 'lokasi'])->name('kontak.lokasi');
+Route::get('/footer', [BannerController::class, 'footer'])->name('kontak.footer');
+
+Route::get('/sesi', [SessionController::class, 'index']);
+Route::post('/sesi/login', [SessionController::class, 'login']);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 
+use function Symfony\Component\String\b;
+
 class BannerController extends Controller
 {
     /**
@@ -23,6 +25,17 @@ class BannerController extends Controller
         $banner = Banner::all();
         return view('masyarakat.kontak', compact('banner'));
     }
+
+    public function footer()
+    {
+        $banner = Banner::all();
+        return view('masyarakat.footer', compact('banner'));
+    }
+
+
+    
+
+
 
     /**
      * Show the form for creating a new resource.
