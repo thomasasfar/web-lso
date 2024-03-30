@@ -134,5 +134,3 @@ Route::get('/profil', [TentangController::class, 'profil'])->name('tentang.profi
 Route::get('/backoffice', [AuthController::class, 'getLogin'])->name('login');
 Route::post('/backoffice/login', [AuthController::class, 'login']);
 
-
-
