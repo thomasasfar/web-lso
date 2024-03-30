@@ -21,10 +21,6 @@
             margin: 10px;
             border: 1px solid red;
         }
-
-        .modal-lg {
-            max-width: 1000px !important;
-        }
     </style>
 
     <div class="container">
@@ -35,44 +31,36 @@
             <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah-banner">Tambah Banner</a>
         </div>
 
-
         {{-- table --}}
         <table class="table table-striped" id="myTable">
             <thead>
                 <tr>
                     <th scope="col" style="display: none;">ID</th>
-                    <th scope="col" style="width: 3%;">No</th>
+                    <th scope="col">Nomor</th>
                     <th scope="col">Gambar</th>
-                    <th scope="col" style="width: 10%;">Aksi</th>
                 </tr>
             </thead>
         </table>
     </div>
 
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Upload Banner</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="container mt-5">
+        <div class="card">
+            <h2 class="card-header">Laravel 9 Crop Image Before Upload - Wesley</h2>
+            <div class="card-body">
+                <h5 class="card-title">Please Select Image For Cropping</h5>
+                <input type="file" name="image" class="image">
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" id="crop">Crop & Save</button>
+            </div>
+        </div>
+        <div class="img-container">
+            <div class="row">
+                <div class="col-md-7">
+                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
                 </div>
-                <div class="modal-body">
-                    <div id="preview-gambar" class="img-container visually-hidden">
-                        <div class="row">
-                            <div class="col-md-7">
-                                <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
-                            </div>
-                            <div class="col-md-5">
-                                <div class="preview"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Form input gambar -->
-                    <input type="file" name="image" class="image">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id="crop" class="btn btn-primary" disabled>Crop</button>
+                <div class="col-md-5">
+                    <div class="preview"></div>
                 </div>
             </div>
         </div>
@@ -117,30 +105,14 @@
             });
         });
 
-        $('#tombol-tambah-banner').click(function() {
-            $('#modal').modal('show');
-        });
+        var image = document.getElementById('image');
+        var cropper;
 
-        $('body').on('click', '.tombol-del', function(e) {
-            if (confirm('Yakin ingin menghapus data klien ini?') == true) {
-                var id = $(this).data('id');
-                var url = "{{ route('banner.hapus', ['id' => ':id']) }}";
-                url = url.replace(':id', id);
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                });
-                $('#myTable').DataTable().ajax.reload();
-            }
-        });
-
-        $('#modal').on("change", ".image", function(e) {
-            $("#preview-gambar").removeClass('visually-hidden');
+        $("body").on("change", ".image", function(e) {
             var files = e.target.files;
             var done = function(url) {
                 image.src = url;
-                $('#modal').modal('show');
-                cropper.replace(url);
+                cropper.replace(url); // Memperbarui gambar di dalam preview
             };
             var reader;
             var file;
@@ -157,33 +129,23 @@
                     reader.readAsDataURL(file);
                 }
             }
-
-            if (this.files && this.files[0]) {
-                $("#crop").prop('disabled', false);
-            } else {
-                $("#crop").prop('disabled', true);
-            }
         });
 
-        $('#modal').on('shown.bs.modal', function() {
+        $(document).ready(function() {
             cropper = new Cropper(image, {
                 aspectRatio: 20 / 9,
                 viewMode: 3,
                 preview: '.preview'
             });
-        }).on('hidden.bs.modal', function() {
-            $("#crop").prop('disabled', true);
-            cropper.destroy();
-            cropper = null;
         });
 
         $("#crop").click(function() {
             canvas = cropper.getCroppedCanvas({
                 width: 2000,
                 height: 900,
-                imageSmoothingEnabled: true,
-                imageSmoothingQuality: 'high',
-                quality: 1
+                imageSmoothingEnabled: true, // Menjaga kualitas gambar saat dicrop
+                imageSmoothingQuality: 'high', // Menjaga kualitas gambar saat dicrop
+                quality: 1 // Nilai antara 0 dan 1, 1 adalah kualitas tertinggi
             });
             canvas.toBlob(function(blob) {
                 url = URL.createObjectURL(blob);
@@ -191,20 +153,22 @@
                 reader.readAsDataURL(blob);
                 reader.onloadend = function() {
                     var base64data = reader.result;
+                    // Simpan gambar atau lakukan tindakan lain di sini
                     $.ajax({
                         type: "POST",
                         dataType: "json",
                         url: "/banner",
                         data: {
-                            '_token': '{{ csrf_token() }}',
+                            '_token': $('meta[name="_token"]').attr('content'),
                             'image': base64data
                         },
                         success: function(data) {
                             console.log(data);
-                            $('#modal').modal('hide');
+                            $modal.modal('hide');
                             alert("Crop image successfully uploaded");
                         }
                     });
+                    alert("Crop image successfully saved");
                 }
             });
         });

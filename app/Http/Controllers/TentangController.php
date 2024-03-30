@@ -32,7 +32,7 @@ class TentangController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) {
-                return view('admin.components.aksi')->with('data', $data);
+                return view('admin.components.edit')->with('data', $data);
             })
             ->make(true);
     }

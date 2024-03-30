@@ -5,7 +5,7 @@
         new DataTable('#myTable', {
             processing: true,
             serverSide: true,
-            ajax: "{{ route('sosmed.table') }}",
+            ajax: "{{ route('galeri.table') }}",
             columns: [{
                     data: 'id',
                     name: 'id',
@@ -18,20 +18,14 @@
                     searchable: false
                 },
                 {
-                    data: 'nama',
-                    name: 'nama',
+                    data: 'caption',
+                    name: 'caption',
                     orderable: true,
                     searchable: true
                 },
                 {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
-                {
                     data: 'image',
-                    name: 'image',
-                    orderable: false,
-                    searchable: false
+                    name: 'image'
                 },
                 {
                     data: 'aksi',
@@ -46,11 +40,10 @@
         });
     });
 
-    //Delete
     $('body').on('click', '.tombol-del', function(e) {
-        if (confirm('Yakin ingin menghapus data sosmed ini?') == true) {
+        if (confirm('Yakin ingin menghapus data klien ini?') == true) {
             var id = $(this).data('id');
-            var url = "{{ route('sosmed.hapus', ['id' => ':id']) }}";
+            var url = "{{ route('galeri.hapus', ['id' => ':id']) }}";
             url = url.replace(':id', id);
             $.ajax({
                 url: url,
@@ -60,40 +53,39 @@
         }
     });
 
-    /*  Tambah */
     $('#tombol-tambah').click(function() {
         $('#btn-save').val("create-product");
         $('#id').val('');
-        $('#sosmedForm').trigger("reset");
-        $('#CrudModal').html("Tambah Media Sosial");
-        $('#modal').modal('show');
-        $('#modal-preview').attr('src', 'https://via.placeholder.com/150');
+        $('#galeriForm').trigger("reset");
+        $('#galeriCrudModal').html("Tambah Klien");
+        $('#modalGaleri').modal('show');
+        $('#modal-preview').addClass('visually-hidden');
+        // $('#modal-preview').attr('src', 'https://via.placeholder.com/150');
     });
 
-    /* Edit */
     $('body').on('click', '.tombol-edit', function() {
         var id = $(this).data('id');
-        $.get('sosmed/' + id + '/edit', function(data) {
+        $.get('galeri/' + id + '/edit', function(data) {
             console.log(data)
-            // $('#title-error').hide();
-            // $('#product_code-error').hide();
-            // $('#description-error').hide();
-            $('#CrudModal').html("Edit Data Klien");
+            $('#galeriCrudModal').html("Edit Data Klien");
             $('#tombol-simpan').val("Simpan");
-            $('#modal').modal('show');
+            $('#modalGaleri').modal('show');
             $('#id').val(data.id);
+
             $('#modal-preview').attr('alt', 'No image available');
             if (data.image) {
                 console.log(data.image)
-                $('#modal-preview').attr('src', SITEURL + '/storage/images/sosmed/' + data.image);
+                $('#modal-preview').removeClass('visually-hidden')
+                $('#modal-preview').attr('src', SITEURL + '/storage/images/galeri/' + data.image);
                 $('#hidden_image').val(data.image);
             }
-            $('#nama').val(data.nama);
-            $('#alamat').val(data.alamat);
+
+            $('#caption').val(data.caption);
         })
     });
 
-    $('body').on('submit', '#sosmedForm', function(e) {
+    $('body').on('submit', '#galeriForm', function(e) {
+
         e.preventDefault();
 
         var actionType = $('#tombol-simpan').val();
@@ -103,14 +95,14 @@
 
         $.ajax({
             type: 'POST',
-            url: SITEURL + "/tambahsosmed",
+            url: SITEURL + "/admin/galeri",
             data: formData,
             cache: false,
             contentType: false,
             processData: false,
             success: (data) => {
-                $('#sosmedForm').trigger("reset");
-                $('#modal').modal('hide');
+                $('#galeriForm').trigger("reset");
+                $('#modalGaleri').modal('hide');
                 $('#tombol-simpan').html('Save Changes');
                 $('#myTable').DataTable().ajax.reload();
             },
@@ -132,7 +124,6 @@
 
             reader.readAsDataURL(input.files[0]);
             $('#modal-preview').removeClass('visually-hidden');
-            $('#start').hide();
         }
     }
 </script>

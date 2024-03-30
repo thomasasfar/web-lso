@@ -2,15 +2,15 @@
     <div class=" pe-5 ps-5">
         <div class="row">
             <div class=" p-0">
-                <img src="/img/logo.png" class="img-fluid" alt="...">
+                <img src="/storage/images/webmaster/logo.png" style="max-height: 40px;" class="img-fluid" alt="...">
             </div>
         </div>
     </div>
     <li class="list-menu">
         <P class="fw-light fs-5  pe-5 ps-5">Hello, <span class="fw-bold" id="username"></span> ! </P>
     </li>
-    <li class="p-3 ps-5 list-menu">
-        <a class="pb-2 text-white" href="#">
+    <li class="p-3 ps-5 list-menu {{ Request::is('admin/profil') ? 'available' : '' }}">
+        <a class="pb-2 text-white" href="/admin/profil">
             <div class="">
                 <div class="col-9 ps-0 pt-1 text-start">
                     Tentang
@@ -18,8 +18,8 @@
             </div>
         </a>
     </li>
-    <li class="p-3 ps-5 list-menu">
-        <a class="pb-2 text-white" href="#">
+    <li class="p-3 ps-5 list-menu {{ Request::is('admin/layanan') ? 'available' : '' }}">
+        <a class="pb-2 text-white" href="/admin/layanan">
             <div class="">
                 <div class="col-9 ps-0 pt-1 text-start">
                     Layanan
@@ -28,7 +28,7 @@
         </a>
     </li>
     <li class="p-3 ps-5 list-menu {{ Request::is('admin/klien') ? 'available' : '' }}">
-        <a class="pb-2 text-white" href="#">
+        <a class="pb-2 text-white" href="/admin/klien">
             <div class="">
                 <div class="col-9 ps-0 pt-1 text-start">
                     Klien

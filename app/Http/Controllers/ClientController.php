@@ -24,24 +24,6 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $articles;
-
-    // public function __construct(Article $articles)
-    // {
-    //     $this->articles = $articles;
-    // }
-
-    // public function index(Request $request)
-    // {
-    //     $articles = $this->articles->latest('created_at')->paginate(5);
-
-    //     if ($request->ajax()) {
-    //         return view('articles.load', ['articles' => $articles])->render();
-    //     }
-
-    //     return view('articles.index', compact('articles'));
-    // }
-
     public function index()
     {
         $client = Client::paginate(20);
@@ -114,7 +96,7 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        request()->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'alamat' => 'required',
             'kontak' => 'required',
@@ -126,7 +108,30 @@ class ClientController extends Controller
             'tanggal_habis_berlaku' => 'required|date|after:tanggal_mulai_berlaku',
             'id_status' => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-       ]);
+        ], [
+            'nama.required' => 'Nama harus diisi.',
+            'alamat.required' => 'Alamat harus diisi.',
+            'kontak.required' => 'Kontak harus diisi.',
+            'telepon.required' => 'Telepon harus diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'validasi.required' => 'Tanggal validasi harus diisi.',
+            'validasi.date' => 'Tanggal validasi harus dalam format tanggal yang valid.',
+            'validasi.before_or_equal' => 'Tanggal validasi harus sebelum atau sama dengan tanggal mulai berlaku.',
+            'nomor_sertifikat.required' => 'Nomor sertifikat harus diisi.',
+            'tanggal_mulai_berlaku.required' => 'Tanggal mulai berlaku harus diisi.',
+            'tanggal_mulai_berlaku.date' => 'Tanggal mulai berlaku harus dalam format tanggal yang valid.',
+            'tanggal_habis_berlaku.required' => 'Tanggal habis berlaku harus diisi.',
+            'tanggal_habis_berlaku.date' => 'Tanggal habis berlaku harus dalam format tanggal yang valid.',
+            'tanggal_habis_berlaku.after' => 'Tanggal habis berlaku harus setelah tanggal mulai berlaku.',
+            'id_status.required' => 'ID Status harus diisi.',
+            'image.image' => 'File yang diunggah harus berupa gambar.',
+            'image.mimes' => 'File gambar harus memiliki format JPG, PNG, JPEG, GIF, atau SVG.',
+            'image.max' => 'Ukuran file gambar tidak boleh lebih dari 2 MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
        $clientId = $request->client_id;
 
@@ -147,11 +152,11 @@ class ClientController extends Controller
         if ($files = $request->file('image')) {
 
             //delete old file
-            \File::delete('/storage/images/klien'.$request->hidden_image);
+            \File::delete('storage/images/klien/'.$request->hidden_image);
 
             //insert new file
             $destinationPath = 'storage/images/klien'; // upload path
-            $clientImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $clientImage = $request->nama . " - " . date('YmdHis') . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $clientImage);
             $data['image'] = "$clientImage";
         }
@@ -191,7 +196,11 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Client::with('DetailRuangLingkup.RuangLingkup', 'DetailStandard.Standard')->findOrFail($id);
+        $detailStandards = DetailStandard::with('standard')->where('id_client', $id)->get();
+        $detailRuangLingkups = DetailRuangLingkup::with('ruanglingkup')->where('id_client', $id)->get();
+
+        return view('masyarakat.detail_klien', compact('data', 'detailStandards', 'detailRuangLingkups'));
     }
 
     /**
@@ -277,7 +286,7 @@ class ClientController extends Controller
     public function destroy($id)
     {
         $data = Client::where('id',$id)->first(['image']);
-        \File::delete('storage/images/klien'.$data->image);
+        \File::delete('storage/images/klien/'.$data->image);
 
         $client = Client::where('id', $id)->delete();
         return Response::json($client);

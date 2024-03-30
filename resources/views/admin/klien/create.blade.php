@@ -27,9 +27,10 @@
                             </div>
                             <img id="modal-preview" src="https://via.placeholder.com/150" alt="Preview"
                                 class="form-group visually-hidden" height="100">
+                            <div id="error-messages"></div>
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama">
+                                <input type="text" class="form-control" id="nama" name="nama" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label">Alamat</label>
@@ -58,7 +59,7 @@
                             <div class="mb-3">
                                 <label for="selectruanglingkup" class="form-label">Ruang Lingkup</label>
                                 <select class="form-select" aria-label="Default select example" name="id_ruang_lingkup[]"
-                                    id="selectruanglingkup" multiple = "multiple" required>
+                                    id="selectruanglingkup" multiple = "multiple">
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -84,10 +85,14 @@
                             <div class="mb-3">
                                 <label for="selectstatus" class="form-label">Status</label>
                                 <select class="form-select" aria-label="Default select example" name="id_status"
-                                    id="selectstatus" required>
+                                    id="selectstatus">
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary tombol-simpan">Simpan</button>
+                            <button type="submit" class="btn btn-primary tombol-simpan"><span id="spinner"
+                                    class="spinner-border spinner-border-sm" style="display: none;"
+                                    aria-hidden="true"></span>
+                                <span id="textSpinner">Simpan</span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -165,9 +170,21 @@
 
     });
 
+    $('input, select').focus(function() {
+        var fieldName = $(this).attr('name');
+        $('#' + fieldName).removeClass('is-invalid');
+        $('#' + fieldName + '_error').text('');
+    });
+
     $('body').on('submit', '#clientForm', function(e) {
 
         e.preventDefault();
+
+        $('#error-messages').html('');
+        $('input, select').removeClass('is-invalid').next('.invalid-feedback').remove();
+
+        $('#spinner').show();
+        $('#textSpinner').hide();
 
         var actionType = $('#tombol-simpan').val();
         $('#tombol-simpan').html('Sending..');
@@ -185,9 +202,25 @@
                 $('#tombol-simpan').html('Save Changes');
                 window.location.href = SITEURL + "/admin/klien";
             },
-            error: function(data) {
-                console.log('Error:', data);
-                $('#tombol-simpan').html('Save Changes');
+            error: function(xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                if (xhr.status == 422) {
+                    $('#spinner').hide();
+                    $('#textSpinner').show();
+                    // Menangani kesalahan validasi
+                    var errors = err.errors;
+                    $.each(errors, function(key, value) {
+                        // Tampilkan pesan kesalahan di bawah input yang sesuai
+                        $('#' + key).addClass('is-invalid');
+                        $('#' + key).after('<div class="invalid-feedback">' + value +
+                            '</div>');
+                    });
+                } else {
+                    $('#spinner').hide();
+                    $('#textSpinner').show();
+                    // Menangani kesalahan lainnya
+                    console.error('Kesalahan:', error);
+                }
             }
         });
     });

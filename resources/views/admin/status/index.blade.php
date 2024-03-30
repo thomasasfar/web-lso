@@ -9,27 +9,27 @@
     @extends('admin.sidebar')
 @section('isi')
     <div class="container">
-        <h1>Kelola Standar</h1>
+        <h1>Kelola Status</h1>
 
         <!-- Button trigger modal Tambah -->
         <div class="my-2">
-            <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah-standar">Add New</a>
+            <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah">Add New</a>
         </div>
 
         <!-- Modal Tambah-->
-        <div class="modal fade" id="modalStandar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="standardForm" name="standardForm">
-                    <input type="hidden" name="standard_id" id="standard_id">
+                <form id="statusForm" name="statusForm">
+                    <input type="hidden" name="id" id="id">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="standardCrudModal">Tambah Standar</h1>
+                            <h1 class="modal-title fs-5" id="standardCrudModal">Tambah Status</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="nama_standar" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama_standar" name="nama_standar">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -41,13 +41,8 @@
             </div>
         </div>
 
-        {{-- <div class="col-sm-6" style="text-align: end">
-    <button id="btnPrintKlien" class="btn btn-primary">print</button>
-    <button id="btnExcel" class="btn btn-primary">excel</button>
-</div> --}}
-
         <div id="myTable_wrapper" class="dataTables_wrapper">
-            <table class="table table-striped" id="standardTable">
+            <table class="table table-striped" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col" style="width: 3%">No</th>
@@ -62,6 +57,6 @@
 @endsection
 
 @section('script')
-    @include('admin.standar.script')
+    @include('admin.status.script')
 @endsection
 @endsection

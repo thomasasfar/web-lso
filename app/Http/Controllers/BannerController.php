@@ -46,7 +46,7 @@ class BannerController extends Controller
                 return view('admin.components.image')->with(['data' => $data, 'table' => $table]);
             })
             ->addColumn('aksi', function ($data) {
-                return view('admin.components.aksi')->with('data', $data);
+                return view('admin.components.delete')->with('data', $data);
             })
             ->make(true);
     }
@@ -131,6 +131,10 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Banner::where('id',$id)->first(['image']);
+        \File::delete('storage/images/banner/'.$data->image);
+
+        $banner = Banner::where('id', $id)->delete();
+        return Response::json($banner);
     }
 }

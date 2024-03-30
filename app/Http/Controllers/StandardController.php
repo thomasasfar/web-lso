@@ -32,12 +32,6 @@ class StandardController extends Controller
             ->make(true);
     }
 
-    public function listStandard()
-    {
-        $data = Standard::all();
-        return response()->json($data);
-    }
-
     /**
      * Show the form for creating a new resource.
      *

@@ -52,7 +52,7 @@ class SosmedController extends Controller
         if ($files = $request->file('image')) {
 
             //delete old file
-            \File::delete('/storage/images/sosmed'.$request->hidden_image);
+            \File::delete('storage/images/sosmed/'.$request->hidden_image);
 
             //insert new file
             $destinationPath = 'storage/images/sosmed'; // upload path

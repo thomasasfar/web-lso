@@ -73,7 +73,7 @@ class LayananController extends Controller
         if ($files = $request->file('image')) {
 
             //delete old file
-            \File::delete('/storage/images/layanan'.$request->hidden_image);
+            \File::delete('storage/images/layanan/'.$request->hidden_image);
 
             //insert new file
             $destinationPath = 'storage/images/layanan'; // upload path

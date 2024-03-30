@@ -1,15 +1,14 @@
 @extends('template')
 
 @section('title')
-    Klien
+    Galeri
 @endsection
 
 @section('konten')
-    {{-- @include('admin/sidebar') --}}
     @extends('admin.sidebar')
 @section('isi')
     <div class="container">
-        <h1>Media Sosial</h1>
+        <h1>Kelola Galeri</h1>
 
         <!-- Button trigger modal Tambah -->
         <div class="my-2">
@@ -17,26 +16,22 @@
         </div>
 
         <!-- Modal Tambah-->
-        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalGaleri" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="sosmedForm" name="sosmedForm" enctype="multipart/form-data">
+                <form id="galeriForm" name="galeriForm" enctype="multipart/form-data">
                     <input type="hidden" name="id" id="id">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="CrudModal">Tambah sosmed</h1>
+                            <h1 class="modal-title fs-5" id="galeriCrudModal">Tambah Klien</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama Media Sosial</label>
-                                <input type="text" class="form-control" id="nama" name="nama">
-                            </div>
-                            <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat Media Sosial (link)</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat">
-                            </div>
+                            {{-- <div class="mb-3">
+                        <label for="image" class="form-label">Gambar</label>
+                        <input type="file" class="form-control" id="image" name="image">
+                    </div> --}}
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Icon</label>
+                                <label class="col-sm-2 control-label">Gambar</label>
                                 <div class="col-sm-12">
                                     <input id="image" type="file" name="image" accept="image/*"
                                         onchange="readURL(this);">
@@ -45,7 +40,11 @@
                             </div>
 
                             <img id="modal-preview" src="https://via.placeholder.com/150" alt="Preview"
-                                class="form-group visually-hidden" height="40">
+                                class="form-group visually-hidden" style="max-width: 320px">
+                            <div class="mb-3">
+                                <label for="caption" class="form-label">Caption</label>
+                                <input type="text" class="form-control" id="caption" name="caption">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -55,22 +54,20 @@
                 </form>
             </div>
         </div>
-
         <table class="display nowrap" style="width:100%" id="myTable">
             <thead>
                 <tr>
                     <th scope="col" style="display:none;">ID</th>
-                    <th scope="col" style="width: 3%">No</th>
-                    <th scope="col">Nama Sosmed</th>
-                    <th scope="col">Alamat (link)</th>
-                    <th scope="col">Icon</th>
-                    <th scope="col" style="width: 10%">Aksi</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Caption</th>
+                    <th scope="col">Gambar</th>
                 </tr>
             </thead>
         </table>
     </div>
 @endsection
 @endsection
+
 @section('script')
-@include('admin.sosmed.script')
+@include('admin.galeri.script')
 @endsection
