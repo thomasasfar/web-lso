@@ -14,7 +14,7 @@ use App\Models\DetailRuangLingkup;
 use App\Models\Status;
 use Redirect,Response,DB;
 use File;
-use PDF;
+use Dompdf\Dompdf;
 
 class ClientController extends Controller
 {
@@ -290,5 +290,27 @@ class ClientController extends Controller
 
         $client = Client::where('id', $id)->delete();
         return Response::json($client);
+    }
+
+    public function downloadKlien()
+    {
+        // Inisialisasi objek Dompdf
+        $dompdf = new Dompdf();
+
+        // Mengambil data klien (misalnya)
+        $clients = Client::with(['DetailStandard.Standard', 'DetailRuangLingkup.RuangLingkup'])->get();
+
+        // Load HTML view ke Dompdf
+        $view = view('masyarakat.klien.download', compact('clients'))->render();
+        $dompdf->loadHtml($view);
+
+        // (Opsional) Atur ukuran dan orientasi kertas
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render HTML sebagai PDF
+        $dompdf->render();
+
+        // Output PDF ke browser
+        return $dompdf->stream('tabel_klien_dan_standard.pdf');
     }
 }

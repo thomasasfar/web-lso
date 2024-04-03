@@ -30,6 +30,7 @@
                         <label for="image" class="form-label">Gambar</label>
                         <input type="file" class="form-control" id="image" name="image">
                     </div> --}}
+                            <div id="error-messages"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Gambar</label>
                                 <div class="col-sm-12">
@@ -48,7 +49,11 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary tombol-simpan">Simpan</button>
+                            <button type="submit" class="btn btn-primary tombol-simpan" style="width: 80px; padding: 6px;">
+                                <span id="spinner" class="spinner-border spinner-border-sm" style="display: none;"
+                                    aria-hidden="true"></span>
+                                <span id="textSpinner">Simpan</span>
+                            </button>
                         </div>
                     </div>
                 </form>

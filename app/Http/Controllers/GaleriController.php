@@ -35,11 +35,12 @@ class GaleriController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'caption' => 'nullable',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ],[
             'image.required' => 'Tolong unggah gambarnya',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'File gambar harus memiliki format JPG, PNG, JPEG, GIF, atau SVG.',
+            'image.max' => 'Size gambar maksimal 2048 KB.',
         ]);
 
         if ($validator->fails()) {
@@ -83,5 +84,18 @@ class GaleriController extends Controller
 
         $galeri = Galeri::where('id', $id)->delete();
         return Response::json($galeri);
+    }
+
+    public function index(Request $request)
+    {
+        $galeri = Galeri::orderBy('id', 'desc')->paginate(12);
+
+        if ($request->ajax()) {
+            $view = view('masyarakat.galeri.data', compact('galeri'))->render();
+
+            return response()->json(['html' => $view]);
+        }
+
+        return view('masyarakat.galeri.index', compact('galeri'));
     }
 }

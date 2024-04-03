@@ -10,7 +10,7 @@
     <style>
         /* Mengurangi spasi antar elemen */
         .spasi {
-            margin-bottom: 10px;
+            margin-bottom: 2px;
             /* Menyesuaikan margin bawah */
         }
 
@@ -52,14 +52,22 @@
             <div class="card-body p-3"> <!-- Menyesuaikan padding card body -->
                 <h5 class="card-title text-primary">{{ $data->nama }}</h5>
                 <p class="card-text">{{ $data->alamat }}</p>
-                <p class="card-text"><small class="text-muted">Kontak : {{ $data->kontak }}</small></p>
-                <p class="card-text"><small class="text-muted spasi">Standards:
+                <p class="card-text spasi"><small class="text-muted">Kontak : {{ $data->kontak }}</small></p>
+                <p class="card-text spasi"><small class="text-muted">Standards:
                         {{ $detailStandards->pluck('standard.nama_standar')->implode(', ') }}
                     </small></p>
-                <p class="card-text"><small class="text-muted spasi">Ruang Lingkup:
+                <p class="card-text spasi"><small class="text-muted">Ruang Lingkup:
                         {{ $detailRuangLingkups->pluck('ruanglingkup.nama')->implode(', ') }}
                     </small></p>
             </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <a href="/klien" class="btn btn-dark mb-1" style="width: 256px">Kembali</a>
+            </div>
         </div>
     </div>
+    @include('masyarakat.footer.footer')
+@endsection
+
+@section('script')
+@include('masyarakat.footer.script')
 @endsection

@@ -7,20 +7,21 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Kontak;
+use App\Models\Sosmed;
 use Illuminate\Support\Str;
 use Redirect,Response,DB;
 use File;
 
 class KontakController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('admin.kontak.index');
+    }
+
+    public function indexMasyarakat()
+    {
+        return view('masyarakat.kontak');
     }
 
     public function table()
@@ -35,12 +36,6 @@ class KontakController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $where = array('id' => $id);
@@ -49,13 +44,6 @@ class KontakController extends Controller
         return Response::json($data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         request()->validate([
@@ -75,14 +63,25 @@ class KontakController extends Controller
         return Response::json($kontak);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function footer()
     {
-        //
+        $kontak = Kontak::all();
+        $sosmed = Sosmed::all();
+
+        return view('masyarakat.footer.footer', compact('kontak', 'sosmed'));
+    }
+
+    public function kontakfooter()
+    {
+        $kontak = Kontak::all();
+
+        return Response::json($kontak);
+    }
+
+    public function sosmedfooter()
+    {
+        $sosmed = Sosmed::all();
+
+        return response()->json($sosmed);
     }
 }

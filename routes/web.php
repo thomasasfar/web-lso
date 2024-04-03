@@ -126,7 +126,8 @@ Route::middleware(['operator'])->group(function(){
 Route::get('/', [BannerController::class, 'index']);
 Route::get('/klien', [ClientController::class, 'index']);
 Route::get('/klien-ajax', [ClientController::class, 'paginationAjax']);
-Route::get('/klien/{id}',[ClientController::class, 'show']);
+Route::get('/klien/{id}',[ClientController::class, 'show'])->name('detail.klien');
+
 //tentang
 Route::get('/profil', [TentangController::class, 'profil'])->name('tentang.profil');
 
@@ -134,3 +135,15 @@ Route::get('/profil', [TentangController::class, 'profil'])->name('tentang.profi
 Route::get('/backoffice', [AuthController::class, 'getLogin'])->name('login');
 Route::post('/backoffice/login', [AuthController::class, 'login']);
 
+//footer
+Route::get('/footer', [KontakController::class, 'footer']);
+Route::get('/kontakfooter', [KontakController::class, 'kontakfooter'])->name('footer.kontak');
+Route::get('/sosmedfooter', [KontakController::class, 'sosmedfooter'])->name('footer.sosmed');
+
+Route::get('/download', [ClientController::class, 'downloadKlien']);
+
+//kontak
+Route::get('/kontak', [KontakController::class, 'indexMasyarakat']);
+
+//galeri
+Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index');
