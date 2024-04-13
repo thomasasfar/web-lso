@@ -24,12 +24,6 @@ class BannerController extends Controller
         return view('masyarakat.tentang.tentang', compact('banner'));
     }
 
-    public function lokasi()
-    {
-        $banner = Banner::all();
-        return view('masyarakat.kontak', compact('banner'));
-    }
-
     public function indexAdmin()
     {
         return view('admin.about_us.banner');
@@ -51,7 +45,7 @@ class BannerController extends Controller
             ->make(true);
     }
 
-    public function uploadCropImage(Request $request)
+    public function store(Request $request)
     {
         $folderPath = public_path('storage/images/banner/');
         $image_parts = explode(";base64,", $request->image);
@@ -68,67 +62,6 @@ class BannerController extends Controller
         return response()->json(['success'=>'Crop Image Uploaded Successfully']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $data = Banner::where('id',$id)->first(['image']);

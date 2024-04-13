@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Status;
 use Redirect,Response,DB;
 
@@ -31,9 +32,16 @@ class StatusController extends Controller
 
     public function store(Request $request)
     {
-        request()->validate([
-            'nama' => 'required'
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|unique:statuses,nama'
+        ], [
+            'nama.required' => 'Nama status harus diisi.',
+            'nama.unique' => 'Nama status sudah ada.'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         $data = ['nama' => $request->nama];
 

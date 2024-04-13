@@ -18,6 +18,13 @@ h1, h2, h3, h4 {
     font-style: normal;
   }
 
+.font-nav {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
 .list-menu {
     list-style: none;
     margin: 20px 0 20px 0;
@@ -44,7 +51,7 @@ a {
 
 
 .selected-nav {
-    color: #126550;
+    color: #02632a;
 }
 
 .not-selected-nav {
@@ -58,6 +65,12 @@ a {
 .nav-link {
     text-transform: uppercase;
     margin-right: 30px;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* dekstop version */
@@ -118,3 +131,6 @@ img {
 }
 /* font */
 
+.uppercase {
+    text-transform: uppercase;
+}

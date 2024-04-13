@@ -61,9 +61,9 @@ class LayananController extends Controller
         $images = $dom->getElementsByTagName('img');
 
         foreach ($images as $key => $img) {
-            $data = base64_decode(explode(',',explode(';',$img->getAttribute('src'))[1])[1]);
-            $image_name = "/upload/" . time(). $key.'.png';
-            file_put_contents(public_path().$image_name,$data);
+            $data_images = base64_decode(explode(',',explode(';',$img->getAttribute('src'))[1])[1]);
+            $image_name = "/storage/" . time(). $key.'.png';
+            file_put_contents(public_path().$image_name,$data_images);
 
             $img->removeAttribute('src');
             $img->setAttribute('src',$image_name);
@@ -94,7 +94,6 @@ class LayananController extends Controller
             $pdfFile->move(public_path($pdfPath), $pdfName);
             $data['file'] = $pdfName;
         }
-
         $layanan = Layanan::updateOrCreate(['id' => $layananId], $data);
         return Response::json($layanan);
     }
@@ -125,4 +124,51 @@ class LayananController extends Controller
         $layanan = Layanan::where('id', $id)->delete();
         return Response::json($layanan);
     }
+
+    public function index()
+    {
+        $layanan = Layanan::paginate(12);
+
+        return view('masyarakat.layanan.layanan', compact('layanan'));
+    }
+
+    function paginationAjax(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = Masyarakat::paginate(20);
+            return view('masyarakat.layanan.layanan', compact('data'))->render();
+        }
+    }
+
+    public function show($id)
+    {
+        $layanan = Layanan::findOrFail($id);
+
+        return view('masyarakat.layanan.detail-layanan', compact('layanan'));
+    }
+
+    public function downloadPdf($id)
+    {
+        $layanan = Layanan::findOrFail($id);
+
+        // Pastikan ada file PDF yang terkait dengan layanan
+        if ($layanan->file) {
+            $pdfPath = public_path('storage/pdfs/layanan/' . $layanan->file);
+
+            // Pastikan file PDF ada di direktori yang ditentukan
+            if (File::exists($pdfPath)) {
+                // Set header untuk download file dengan nama asli
+                $headers = [
+                    'Content-Type' => 'application/pdf',
+                ];
+
+                // Download file PDF
+                return response()->download($pdfPath, $layanan->file, $headers);
+            }
+        }
+
+        return redirect()->back()->with('error', 'File PDF tidak ditemukan.');
+    }
+
 }

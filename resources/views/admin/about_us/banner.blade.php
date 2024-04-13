@@ -5,9 +5,8 @@
 @endsection
 
 @section('konten')
-    {{-- @include('admin/sidebar') --}}
-    @extends('admin.sidebar')
-@section('isi')
+    @include('admin.sidebar')
+
     <style type="text/css">
         img {
             display: block;
@@ -16,8 +15,8 @@
 
         .preview {
             overflow: hidden;
-            width: 160px;
-            height: 160px;
+            width: 320px;
+            height: 320px;
             margin: 10px;
             border: 1px solid red;
         }
@@ -26,53 +25,56 @@
             max-width: 1000px !important;
         }
     </style>
+    <div class="p-4" id="main-content">
 
-    <div class="container">
-        <h1>Kelola Banner</h1>
+        <div class="container">
+            <h1>Kelola Banner</h1>
 
-        <!-- Button trigger modal Tambah -->
-        <div class="my-2">
-            <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah-banner">Tambah Banner</a>
+            <!-- Button trigger modal Tambah -->
+            <div class="my-2">
+                <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah-banner">Tambah Banner</a>
+            </div>
+
+            {{-- table --}}
+            <table class="table table-striped" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col" style="display: none;">ID</th>
+                        <th scope="col" style="width: 3%;">No</th>
+                        <th scope="col">Gambar</th>
+                        <th scope="col" style="width: 10%;">Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
 
-
-        {{-- table --}}
-        <table class="table table-striped" id="myTable">
-            <thead>
-                <tr>
-                    <th scope="col" style="display: none;">ID</th>
-                    <th scope="col" style="width: 3%;">No</th>
-                    <th scope="col">Gambar</th>
-                    <th scope="col" style="width: 10%;">Aksi</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Upload Banner</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="preview-gambar" class="img-container visually-hidden">
-                        <div class="row">
-                            <div class="col-md-7">
-                                <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
-                            </div>
-                            <div class="col-md-5">
-                                <div class="preview"></div>
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Upload Banner</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="preview-gambar" class="img-container visually-hidden">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="preview"></div>
+                                </div>
                             </div>
                         </div>
+                        <!-- Form input gambar -->
+                        <input type="file" name="image" class="image">
                     </div>
-                    <!-- Form input gambar -->
-                    <input type="file" name="image" class="image">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id="crop" class="btn btn-primary" disabled>Crop</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</button>
+                        <button type="button" id="crop" class="btn btn-primary" disabled>Simpan</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,10 +121,12 @@
 
         $('#tombol-tambah-banner').click(function() {
             $('#modal').modal('show');
+            $('.image').val('');
+            $('#preview-gambar').addClass('visually-hidden')
         });
 
         $('body').on('click', '.tombol-del', function(e) {
-            if (confirm('Yakin ingin menghapus data klien ini?') == true) {
+            if (confirm('Yakin ingin menghapus banner ini?') == true) {
                 var id = $(this).data('id');
                 var url = "{{ route('banner.hapus', ['id' => ':id']) }}";
                 url = url.replace(':id', id);
@@ -209,5 +213,4 @@
             });
         });
     </script>
-@endsection
 @endsection

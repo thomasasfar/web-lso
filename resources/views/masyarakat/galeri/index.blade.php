@@ -8,20 +8,20 @@
     @include('masyarakat/navbar')
 
     <div class="container my-3">
-
         <h1 style="text-align: center; font-weight:600; font-size: 40px; color:#333" class="my-3">GALERI</h1>
         <hr>
 
         <div class="container py-5">
-
             <div id="data-wrapper">
                 @include('masyarakat.galeri.data')
             </div>
-
         </div>
 
-        <div class="text-center">
-            <button class="btn btn-dark load-more-data"><i class="fa fa-refresh"></i> Load More </button>
+        <div class="text-center" id="load-more-container">
+            <!-- Tombol Load More -->
+            @if ($galeri->hasMorePages())
+                <button class="btn btn-dark load-more-data"><i class="fa fa-refresh"></i> Load More</button>
+            @endif
         </div>
 
         <!-- Data Loader -->
@@ -49,11 +49,6 @@
             infinteLoadMore(page);
         });
 
-        /*------------------------------------------
-        --------------------------------------------
-        call infinteLoadMore()
-        --------------------------------------------
-        --------------------------------------------*/
         function infinteLoadMore(page) {
             $.ajax({
                     url: ENDPOINT + "?page=" + page,
@@ -70,11 +65,59 @@
                     }
                     $('.auto-load').hide();
                     $("#data-wrapper").append(response.html);
+
+                    // Periksa apakah masih ada halaman berikutnya
+                    if (!response.has_more) {
+                        $("#load-more-container").hide();
+                    }
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
                     console.log('Server error occured');
                 });
         }
     </script>
+    @include('masyarakat.footer.script')
+@endsection
+@section('script')
+    <script>
+        var ENDPOINT = "{{ route('galeri.index') }}";
+        var page = 1;
+
+        $(".load-more-data").click(function() {
+            page++;
+            infinteLoadMore(page);
+        });
+
+        function infinteLoadMore(page) {
+            $.ajax({
+                    url: ENDPOINT + "?page=" + page,
+                    datatype: "html",
+                    type: "get",
+                    beforeSend: function() {
+                        $('.auto-load').show();
+                    }
+                })
+                .done(function(response) {
+                    if (response.html == '') {
+                        $('.auto-load').html("We don't have more data to display :(");
+                        return;
+                    }
+                    $('.auto-load').hide();
+                    $("#data-wrapper").append(response.html);
+
+                    // Periksa apakah masih ada halaman berikutnya
+                    if (!response.has_more) {
+                        $("#load-more-container").hide();
+                    }
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    console.log('Server error occured');
+                });
+        }
+    </script>
+    @include('masyarakat.footer.script')
+@endsection
+
+@section('script')
     @include('masyarakat.footer.script')
 @endsection

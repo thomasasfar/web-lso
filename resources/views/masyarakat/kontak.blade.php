@@ -90,3 +90,7 @@
     </script>
     @include('masyarakat.footer.script')
 @endsection
+
+@section('script')
+    @include('masyarakat.footer.script')
+@endsection

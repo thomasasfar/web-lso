@@ -13,13 +13,12 @@
 
         <p style="text-align: center">Lihat semua daftar klien disini</p>
         <div style="display: flex; justify-content: center; align-items: center;">
-            <a href="/download" class="btn btn-dark" style="width: 128px">Disini</a>
+            <a href="/download" class="btn btn-dark">Unduh Daftar Klien</a>
         </div>
         <br>
         <hr>
 
         <div class="container py-5">
-
             <div id="klien_table">
                 @include('masyarakat.klien_pagination_data')
             </div>

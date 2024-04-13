@@ -22,10 +22,15 @@
         <a class="pb-2 text-white" href="/admin/layanan">
             <div class="">
                 <div class="col-9 ps-0 pt-1 text-start">
-                    Layanan
+                    Layanan <b class="float-end">&raquo;</b>
                 </div>
             </div>
         </a>
+        <ul class="submenu dropdown-menu">
+            <li><a class="nav-link" href="#">Multi level 1</a></li>
+            <li><a class="nav-link" href="#">Multi level 2</a></li>
+            <li><a class="nav-link" href="#">Multi level 3</a></li>
+        </ul>
     </li>
     <li class="p-3 ps-5 list-menu {{ Request::is('admin/klien') ? 'available' : '' }}">
         <a class="pb-2 text-white" href="/admin/klien">
@@ -56,6 +61,6 @@
     </li>
 </div>
 
-<div class="p-4" id="main-content">
+{{-- <div class="p-4" id="main-content">
     @yield('isi')
-</div>
+</div> --}}

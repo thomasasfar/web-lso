@@ -51,13 +51,13 @@ Route::middleware(['auth'])->group(function(){
     //banner
     Route::get('admin/banner', [BannerController::class, 'indexAdmin']);
     Route::get('admin/banner/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
-    Route::post('/banner', [BannerController::class, 'uploadCropImage']);
+    Route::post('/banner', [BannerController::class, 'store']);
     Route::get('/listbanner', [BannerController::class, 'tableBanner'])->name('banner.list');
     Route::delete('/admin/banner/{id}', [BannerController::class, 'destroy'])->name('banner.hapus');
 
     //layanan
     Route::get('admin/layanan', [LayananController::class, 'indexAdmin']);
-    Route::get('/layanan', [LayananController::class, 'tableLayanan'])->name('layanan.table');
+    Route::get('/layanan/table', [LayananController::class, 'tableLayanan'])->name('layanan.table');
     Route::delete('/hapuslayanan/{id}', [LayananController::class, 'destroy'])->name('layanan.hapus');
     Route::get('admin/layanan/create', [LayananController::class, 'create'])->name('layanan.create');
     Route::post('/tambahlayanan', [LayananController::class, 'store'])->name('layanan.store');
@@ -147,3 +147,8 @@ Route::get('/kontak', [KontakController::class, 'indexMasyarakat']);
 
 //galeri
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index');
+
+//layanan
+Route::get('/layanan', [LayananController::class, 'index']);
+Route::get('/layanan/{id}', [LayananController::class, 'show'])->name('detail.layanan');
+Route::get('/layanan/{id}/download', [LayananController::class, 'downloadPdf'])->name('layanan.downloadPdf');

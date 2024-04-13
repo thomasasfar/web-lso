@@ -62,9 +62,21 @@
         })
     });
 
+    $('input').focus(function() {
+        var fieldName = $(this).attr('name');
+        $('#' + fieldName).removeClass('is-invalid');
+        $('#' + fieldName + '_error').text('');
+    });
+
     $('body').on('submit', '#standardForm', function(e) {
 
         e.preventDefault();
+
+        $('#error-messages').html('');
+        $('input, select').removeClass('is-invalid').next('.invalid-feedback').remove();
+
+        $('#spinner').show();
+        $('#textSpinner').hide();
 
         var actionType = $('#tombol-simpan').val();
         $('#tombol-simpan').html('Sending..');
@@ -87,9 +99,25 @@
                 // oTable.fnDraw(false);
                 $('#standardTable').DataTable().ajax.reload();
             },
-            error: function(data) {
-                console.log('Error:', data);
-                $('#tombol-simpan').html('Save Changes');
+            error: function(xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                if (xhr.status == 422) {
+                    $('#spinner').hide();
+                    $('#textSpinner').show();
+                    // Menangani kesalahan validasi
+                    var errors = err.errors;
+                    $.each(errors, function(key, value) {
+                        // Tampilkan pesan kesalahan di bawah input yang sesuai
+                        $('#' + key).addClass('is-invalid');
+                        $('#' + key).after('<div class="invalid-feedback">' + value +
+                            '</div>');
+                    });
+                } else {
+                    $('#spinner').hide();
+                    $('#textSpinner').show();
+                    // Menangani kesalahan lainnya
+                    console.error('Kesalahan:', error);
+                }
             }
         });
     });

@@ -241,7 +241,6 @@ class ClientController extends Controller
 
     public function selectRuangLingkup()
     {
-        // $mk = DetailStandard::select('id_standard');
         $data = RuangLingkup::where('nama', 'LIKE', '%' . request('q') . '%')->paginate(10);
 
         return Response::json($data);

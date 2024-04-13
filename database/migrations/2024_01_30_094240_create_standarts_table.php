@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('standards', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_standar');
+            $table->string('nama_standar')->unique();
             $table->timestamps();
         });
     }
