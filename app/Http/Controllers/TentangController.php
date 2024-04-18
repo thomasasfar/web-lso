@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Tentang;
+use App\Models\Banner;
 use DOMDocument;
 use Illuminate\Support\Str;
 use Redirect,Response,DB;
@@ -15,12 +16,24 @@ use PDF;
 
 class TentangController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
+    {
+        return view('masyarakat.tentang.tentang');
+    }
+
+    public function profil()
+    {
+        $profil = Tentang::all();
+        return Response::json($profil);
+    }
+
+    public function getBanner()
+    {
+        $banner = Banner::all();
+        return response()->json($banner);
+    }
+
+    public function indexAdmin()
     {
         return view('admin.profile.index');
     }
@@ -37,57 +50,17 @@ class TentangController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $data = Tentang::findOrFail($id);
         return view('admin.profile.edit',compact('data'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         request()->validate([
@@ -118,22 +91,5 @@ class TentangController extends Controller
         // $tentang->update($data);
         $tentang->update($data);
         return Response::json($tentang);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function profil()
-    {
-        $profil = Tentang::all();
-        return Response::json($profil);
     }
 }

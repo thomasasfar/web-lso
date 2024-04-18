@@ -5,7 +5,7 @@
 @section('konten')
     @include('masyarakat/navbar')
 
-    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    {{-- <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             @foreach ($banner as $image)
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}" data-bs-interval = "5000">
@@ -23,7 +23,24 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+    </div> --}}
+
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- Di sini akan dimasukkan elemen carousel secara dinamis oleh JavaScript -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+
 
     <div class="container my-3">
         <h1 class="raleway-1 text-center font-weight-bold " style="font-size: 40px; color: #333; margin-top: 40px;">PROFIL
@@ -70,24 +87,6 @@
             </div>
         </div>
 
-    </div>
-
-
-    <div class="container-fluid" style="background-color: #80bb83; margin-top: 40px;">
-        <div class="container my-3 py-5">
-            <h1 class="text-center font-weight-bold" style="font-size: 40px; color: #333;">GALERI</h1>
-            <div class="row workingspace">
-                <!-- Gambar Profil -->
-                {{-- @for ($i = 0; $i < 4; $i++)
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card" style="margin-bottom: 20px; background-color: transparent; border: none;">
-                            <!-- Gambar Profil -->
-                            <img src="{{ asset('images/banner/' . $image->gambar) }}" alt="Gambar Profil" class="img-fluid">
-                        </div>
-                    </div>
-                @endfor --}}
-            </div>
-        </div>
     </div>
 
     @include('masyarakat.footer.footer')

@@ -13,17 +13,6 @@ use File;
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $banner = Banner::all();
-        return view('masyarakat.tentang.tentang', compact('banner'));
-    }
-
     public function indexAdmin()
     {
         return view('admin.about_us.banner');

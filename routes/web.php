@@ -90,14 +90,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/galeri/{id}/edit', [GaleriController::class, 'edit'])->name('galeri.edit');
     Route::post('/admin/galeri', [GaleriController::class, 'store'])->name('galeri.tambah');
     Route::delete('/admin/galeri/hapus/{id}', [GaleriController::class, 'destroy'])->name('galeri.hapus');
-});
 
-Route::middleware(['admin'])->group(function(){
-    Route::get('/backoffice', function () {
-        return redirect()->route('profil.list');
-    })->name('login');
     //Profil perusahaan
-    Route::get('/admin/profil', [TentangController::class, 'index'])->name('profil.list');
+    Route::get('/admin/profil', [TentangController::class, 'indexAdmin'])->name('profil.list');
     Route::get('/tableprofil', [TentangController::class, 'table'])->name('profil.table');
     Route::get('/admin/profil/{id}/edit', [TentangController::class, 'edit'])->name('profil.edit');
     Route::post('/updateprofil', [TentangController::class, 'update'])->name('profil.update');
@@ -116,6 +111,12 @@ Route::middleware(['admin'])->group(function(){
     Route::delete('/hapussosmed/{id}', [SosmedController::class, 'destroy'])->name('sosmed.hapus');
 });
 
+Route::middleware(['admin'])->group(function(){
+    Route::get('/backoffice', function () {
+        return redirect()->route('profil.list');
+    })->name('login');
+});
+
 Route::middleware(['operator'])->group(function(){
     Route::get('/backoffice', function () {
         return redirect()->route('klien.list');
@@ -123,12 +124,13 @@ Route::middleware(['operator'])->group(function(){
 });
 
 //masyarakat
-Route::get('/', [BannerController::class, 'index']);
 Route::get('/klien', [ClientController::class, 'index']);
 Route::get('/klien-ajax', [ClientController::class, 'paginationAjax']);
 Route::get('/klien/{id}',[ClientController::class, 'show'])->name('detail.klien');
 
 //tentang
+Route::get('/', [TentangController::class, 'index']);
+Route::get('/banners', [TentangController::class, 'getBanner']);
 Route::get('/profil', [TentangController::class, 'profil'])->name('tentang.profil');
 
 //login

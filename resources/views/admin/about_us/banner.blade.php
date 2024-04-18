@@ -183,8 +183,8 @@
 
         $("#crop").click(function() {
             canvas = cropper.getCroppedCanvas({
-                width: 2000,
-                height: 900,
+                width: 4000,
+                height: 1800,
                 imageSmoothingEnabled: true,
                 imageSmoothingQuality: 'high',
                 quality: 1
@@ -206,7 +206,7 @@
                         success: function(data) {
                             console.log(data);
                             $('#modal').modal('hide');
-                            alert("Crop image successfully uploaded");
+                            $('#myTable').DataTable().ajax.reload();
                         }
                     });
                 }
