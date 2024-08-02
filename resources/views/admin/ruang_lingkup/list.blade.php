@@ -13,7 +13,7 @@
 
             <!-- Button trigger modal Tambah -->
             <div class="my-2">
-                <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah">Add New</a>
+                <a href="javascript:void(0)" class="btn btn-info ml-3" id="tombol-tambah">Tambah</a>
             </div>
 
             <!-- Modal Tambah-->
@@ -49,13 +49,13 @@
             </div>
 
             <div id="myTable_wrapper" class="dataTables_wrapper">
-                <table class="table table-striped" id="ruangLingkupTable">
+                <table class="display" id="ruangLingkupTable">
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width: 6%">No</th>
                             <th scope="col">ID</th>
                             <th scope="col">Nama</th>
-                            <th scope="col">Aksi</th>
+                            <th scope="col" style="width: 10%">Aksi</th>
                         </tr>
                     </thead>
                 </table>

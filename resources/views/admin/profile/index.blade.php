@@ -11,13 +11,13 @@
             <h1>Kelola Profil</h1>
 
             <div id="myTable_wrapper" class="dataTables_wrapper">
-                <table class="table table-striped" id="profileTable">
+                <table class="display" id="profileTable">
                     <thead>
                         <tr>
                             <th scope="col" style="display:none;">ID</th>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width: 6%">No</th>
                             <th scope="col">Nama</th>
-                            <th scope="col">Aksi</th>
+                            <th scope="col" style="width: 10%">Aksi</th>
                         </tr>
                     </thead>
                 </table>

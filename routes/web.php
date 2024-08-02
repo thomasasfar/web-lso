@@ -35,6 +35,9 @@ use App\Http\Controllers\GaleriController;
 
 //admin
 Route::middleware(['auth'])->group(function(){
+    Route::get('/backoffice', function () {
+        return redirect()->route('profil.list');
+    });
     //klien
     Route::get('/admin/klien', [ClientController::class, 'indexAdmin'])->name('klien.list');
     Route::get('/client', [ClientController::class, 'tableKlien'])->name('klien.table');
@@ -109,6 +112,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/admin/sosmed/{id}/edit', [SosmedController::class, 'edit']);
     Route::post('/tambahsosmed', [SosmedController::class, 'store'])->name('sosmed.tambah');
     Route::delete('/hapussosmed/{id}', [SosmedController::class, 'destroy'])->name('sosmed.hapus');
+    
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware(['admin'])->group(function(){

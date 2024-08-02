@@ -34,4 +34,14 @@ class AuthController extends Controller
         }
         return response()->json(['errors' => ['username' => ['Username atau Password Salah']]], 422);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/backoffice')->with('success', 'You have been logged out.');
+    }
 }

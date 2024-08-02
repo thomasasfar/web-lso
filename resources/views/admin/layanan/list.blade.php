@@ -29,11 +29,9 @@
                 </table>
             </div>
         </div>
-        <div class="p-4" id="main-content">
+    </div>
+@endsection
 
-        @endsection
-
-        @section('script')
-            @include('admin.layanan.script')
-        @endsection
-    @endsection
+@section('script')
+    @include('admin.layanan.script')
+@endsection

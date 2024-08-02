@@ -46,10 +46,10 @@
                 <thead>
                     <tr>
                         <th scope="col" style="display:none;">ID</th>
-                        <th scope="col">No</th>
+                        <th scope="col" style="width: 6%">No</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Informasi</th>
-                        <th scope="col">Aksi</th>
+                        <th scope="col" style="width: 10%">Aksi</th>
                     </tr>
                 </thead>
             </table>
