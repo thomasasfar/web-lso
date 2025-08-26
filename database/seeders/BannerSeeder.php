@@ -16,13 +16,13 @@ class BannerSeeder extends Seeder
     public function run()
     {
         DB::table('banners')->insert([
-            'gambar' => '1.jpg',
+            'image' => '1.jpg',
         ]);
         DB::table('banners')->insert([
-            'gambar' => '2.jpg',
+            'image' => '2.jpg',
         ]);
         DB::table('banners')->insert([
-            'gambar' => '3.jpg',
+            'image' => '3.jpg',
         ]);
     }
 }

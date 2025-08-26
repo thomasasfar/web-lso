@@ -1,10 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 body {
-    font-family: "Raleway", Arial, Helvetica, sans-serif;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    /* background: #198653;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex; */
+}
+
+h1, h2, h3, h4 {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+.font-nav {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.list-menu {
+    list-style: none;
+    margin: 20px 0 20px 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.sidebar {
+    width: 264px;
+    height: 100vh;
+    position: fixed;
+    background-color: #126550;
+}
+
+#main-content {
+    margin-left: 330px;
+}
+
+.available{
+    background-color: #325446;
+}
+
+
+.selected-nav {
+    color: #02632a;
+}
+
+.not-selected-nav {
+    color: black;
+}
+
+.nav-margin {
+    margin-right: 32px;
 }
 
 .nav-link {
     text-transform: uppercase;
     margin-right: 30px;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* dekstop version */
@@ -28,11 +94,11 @@ body {
 /*workingspace*/
 .workingspace {
     margin-top: 30px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
 .workingspace img {
-    height: 110%;
     width: 100%;
 }
 
@@ -51,4 +117,20 @@ body {
     background-color: #198653;
 }
 
-/*login*/
+.select2 {
+    width:100%!important;
+}
+
+.myTable {
+    width:100%!important;
+
+}
+
+img {
+    object-fit: cover;
+}
+/* font */
+
+.uppercase {
+    text-transform: uppercase;
+}
